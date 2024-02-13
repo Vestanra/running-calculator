@@ -1,7 +1,7 @@
 import ReactModal from "react-modal";
 import { useState } from "react";
 import { useEffect } from "react";
-import { Btn, BtnWrap, CloseIcon, Input, ReactModalStyled, Title, Wrap, WrapInput } from "../Modal.styled";
+import { Btn, BtnWrap, CloseIcon, Input, ReactModalStyled, Title, Wrap, WrapInput } from "./Modal.styled";
 ReactModal.setAppElement('#root');
 
 

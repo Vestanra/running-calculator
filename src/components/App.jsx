@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { GlobalStyle } from "./GlobalStyle";
-import { ModalDistance } from "./ModalDistance/ModalDistance";
-import { ModalTime } from "./ModalTime/ModalTime";
-import { ModalTemp } from "./ModalTemp/ModalTemp";
+import { ModalDistance } from "./Modal/ModalDistance";
+import { ModalTime } from "./Modal/ModalTime";
+import { ModalTemp } from "./Modal/ModalTemp";
 import { Buttons } from "./Buttonts/Buttonts";
 import { convertToHMS, convertToMS } from "../helpers/index.js";
 import { useEffect } from "react";
 import { useCallback } from "react";
 import { nanoid } from "nanoid";
 import { SavedResults } from "./SavedResults/SavedResults";
-import { Header, InputsWrap, TitleHeader, ButtonWrap, Button, Main, ButtonTitle, ButtonNumber, ButtonText, SaveResetWrap, SaveResetBtn, SaveTitle } from "./App.styled";
+import { Header, InputsWrap, TitleHeader, ButtonWrap, Button, Main, ButtonTitle, ButtonNumber, ButtonText, SaveResetWrap, SaveResetBtn, SaveTitle, WrapThougts, TitleTought, TextTought } from "./App.styled";
 
 export const App = () => {
   const [modalOpenDis, setModalOpenDis] = useState(false)
@@ -48,16 +48,16 @@ export const App = () => {
   }, [saveResults])
 
   useEffect(() => {
-        const body = document.body;
-        if (modalOpenDis || modalOpenRace || modalOpenTime) {
-            body.style.overflow = 'hidden';
-        } else {
-            body.style.overflow = 'auto';
-        }
-        return () => {
-            body.style.overflow = 'auto';
-        };
-    }, [modalOpenDis, modalOpenRace, modalOpenTime]);
+    const body = document.body;
+    if (modalOpenDis || modalOpenRace || modalOpenTime) {
+      body.style.overflow = 'hidden';
+    } else {
+      body.style.overflow = 'auto';
+    }
+    return () => {
+      body.style.overflow = 'auto';
+    };
+  }, [modalOpenDis, modalOpenRace, modalOpenTime]);
   
   const onButtonsClick = (km) => setDistance(km)
   
@@ -136,6 +136,10 @@ export const App = () => {
         <TitleHeader>Running calculator</TitleHeader>
       </Header>
       <Main>
+        <WrapThougts>
+          <TitleTought>Мудрість дня для бігуна:</TitleTought>
+          <TextTought>"Якщо вранці замість того щоб довше поспати ти встаєш бігати - то можливо ти не такий і мудрий"</TextTought>
+        </WrapThougts>
         <Buttons onButtonsClick={onButtonsClick} />
         <InputsWrap>
           <ButtonWrap>
@@ -177,7 +181,7 @@ export const App = () => {
             />
           </ButtonWrap>
         </InputsWrap>
-        <SaveResetWrap>          
+        <SaveResetWrap>
           <SaveResetBtn
             onClick={onSave}
             disabled={(paceForformula > 0 && timeForFormula > 0 && distanceForFormala > 0) ? false : true}>Зберегти</SaveResetBtn>

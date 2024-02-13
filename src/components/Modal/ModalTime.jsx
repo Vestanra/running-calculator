@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { Btn, BtnWrap, CloseIcon, Input, ReactModalStyled, Title, Wrap, WrapInput } from "../Modal.styled";
+import { Btn, BtnWrap, CloseIcon, Input, ReactModalStyled, Title, Wrap, WrapInput } from "./Modal.styled";
 
 export const ModalTime = ({ modalIsOpen, closeModal, time, onChangeTime }) => {
     const [h, setH] = useState(time.split(':')[0])

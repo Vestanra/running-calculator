@@ -10,7 +10,7 @@ export const Main = styled.main`
 padding: 16px;
 background-color: rgb(246, 247, 248);
 max-width: 768px;
-height: 100vw;
+height: 100vh;
 margin-left: auto;
 margin-right: auto;
 `
@@ -18,6 +18,25 @@ margin-right: auto;
 export const TitleHeader = styled.h1`
 `
 
+export const WrapThougts = styled.div`
+font-size: 14px;
+color: rgba(35, 31, 32, 0.8);
+font-style: italic;
+padding: 0 32px;
+@media  (min-width: 768px){
+    width: 500px;
+    font-size: 16px;
+  } 
+`
+
+export const TitleTought = styled.p`
+font-weight: 500;
+`
+export const TextTought = styled.p`
+@media  (min-width: 768px){
+    font-size: 14px;
+  } 
+`
 export const InputsWrap = styled.div`
 display: flex;
 justify-content: space-between;

@@ -3,10 +3,11 @@ import styled from "styled-components";
 export const ButtonsWrap = styled.div`
 display: flex;
 justify-content: space-between;
-margin-top: 32px;
+margin-top: 16px;
 margin-bottom: 32px;
 font-size: 14px;
 @media (min-width: 768px){
+    margin-top: 32px;
     gap: 16px;
     justify-content: center;
     font-size: 16px;
@@ -14,12 +15,12 @@ font-size: 14px;
 `
 
 export const Button = styled.button`
-padding: 4px;
+padding: 8px;
 display: flex;
 flex-direction: column;
 justify-content: center;
 align-items: center;
-width: 46px;
+width: 50px;
 background-color: rgba(255, 223, 18, 0.2);
 border: none;
 border-radius: 8px;
