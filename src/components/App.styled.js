@@ -5,7 +5,6 @@ width: 100%;
 padding: 20px 0;
 background-color: #ffe855;
 text-align: center;
-z-index: 1;
 `
 
 export const ImgRun = styled.img`
@@ -15,9 +14,7 @@ height: 30px;
 
 export const Main = styled.main`
 padding: 16px;
-background-color: rgb(246, 247, 248);
 max-width: 768px;
-height: 100vh;
 margin-left: auto;
 margin-right: auto;
 `
