@@ -10,7 +10,7 @@ import { useCallback } from "react";
 import { nanoid } from "nanoid";
 import { SavedResults } from "./SavedResults/SavedResults";
 import logo from '../run128.png';
-import { Header, InputsWrap, TitleHeader, ButtonWrap, Button, Main, ButtonTitle, ButtonNumber, ButtonText, SaveResetWrap, SaveResetBtn, SaveTitle, WrapThougts, TitleTought, TextTought, SvgRun, ImgRun } from "./App.styled";
+import { Header, InputsWrap, TitleHeader, ButtonWrap, Button, Main, ButtonTitle, ButtonNumber, ButtonText, SaveResetWrap, SaveResetBtn, SaveTitle, WrapThougts, TitleTought, TextTought, ImgRun } from "./App.styled";
 
 export const App = () => {
   const [modalOpenDis, setModalOpenDis] = useState(false)
