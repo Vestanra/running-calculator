@@ -5,6 +5,7 @@ width: 100%;
 padding: 20px 0;
 background-color: #ffe855;
 text-align: center;
+z-index: 1;
 `
 
 export const ImgRun = styled.img`
