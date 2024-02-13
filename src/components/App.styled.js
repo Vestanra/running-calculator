@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { BiRun } from "react-icons/bi";
 
 export const Header = styled.header`
 width: 100%;
@@ -8,8 +7,11 @@ background-color: #ffe855;
 text-align: center;
 `
 
-export const SvgRun = styled(BiRun)`
-`
+export const ImgRun = styled.img`
+width: 30px;
+height: 30px;
+`;
+
 export const Main = styled.main`
 padding: 16px;
 background-color: rgb(246, 247, 248);
@@ -23,7 +25,7 @@ export const TitleHeader = styled.h1`
 display: flex;
 justify-content: center;
 align-items: center;
-gap: 12px;
+gap: 24px;
 `
 
 export const WrapThougts = styled.div`
