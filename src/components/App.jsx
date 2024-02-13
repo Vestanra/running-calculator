@@ -9,7 +9,7 @@ import { useEffect } from "react";
 import { useCallback } from "react";
 import { nanoid } from "nanoid";
 import { SavedResults } from "./SavedResults/SavedResults";
-import { Header, InputsWrap, TitleHeader, ButtonWrap, Button, Main, ButtonTitle, ButtonNumber, ButtonText, SaveResetWrap, SaveResetBtn, SaveTitle, WrapThougts, TitleTought, TextTought } from "./App.styled";
+import { Header, InputsWrap, TitleHeader, ButtonWrap, Button, Main, ButtonTitle, ButtonNumber, ButtonText, SaveResetWrap, SaveResetBtn, SaveTitle, WrapThougts, TitleTought, TextTought, SvgRun } from "./App.styled";
 
 export const App = () => {
   const [modalOpenDis, setModalOpenDis] = useState(false)
@@ -133,7 +133,7 @@ export const App = () => {
   return (
     <div>
       <Header>
-        <TitleHeader>Running calculator</TitleHeader>
+        <TitleHeader><p>Running calculator</p><SvgRun/></TitleHeader>
       </Header>
       <Main>
         <WrapThougts>

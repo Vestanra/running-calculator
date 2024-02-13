@@ -1,10 +1,14 @@
 import styled from "styled-components";
+import { BiRun } from "react-icons/bi";
 
 export const Header = styled.header`
 width: 100%;
 padding: 20px 0;
 background-color: #ffe855;
 text-align: center;
+`
+
+export const SvgRun = styled(BiRun)`
 `
 export const Main = styled.main`
 padding: 16px;
@@ -16,21 +20,26 @@ margin-right: auto;
 `
 
 export const TitleHeader = styled.h1`
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 12px;
 `
 
 export const WrapThougts = styled.div`
 font-size: 14px;
 color: rgba(35, 31, 32, 0.8);
 font-style: italic;
-padding: 0 32px;
+padding: 0 28px;
 @media  (min-width: 768px){
-    width: 500px;
+    padding: 0 120px;
     font-size: 16px;
   } 
 `
 
 export const TitleTought = styled.p`
 font-weight: 500;
+margin-bottom: 4px;
 `
 export const TextTought = styled.p`
 @media  (min-width: 768px){
