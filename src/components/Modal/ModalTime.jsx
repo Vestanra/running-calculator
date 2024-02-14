@@ -59,23 +59,21 @@ export const ModalTime = ({ modalIsOpen, closeModal, time, onChangeTime }) => {
                     <div>
                         <Input
                             type="number"
-                            value={hT}
                             name="h"
                             onChange={onChangeH}
-                            placeholder="0"
+                            placeholder={hT.length === 0 ? '00' : hT}
                         />:
                         <Input
                             type="number"
-                            value={minT}
                             name="min"
                             onChange={onChangeMin}
-                            placeholder="00"
+                            placeholder={minT.length === 0 ? '00' : minT}
                         />:
                         <Input
                             type="number"
-                            value={secT} name="sec"
+                            name="sec"
                             onChange={onChangeSec}
-                            placeholder="00"
+                            placeholder={secT.length === 0 ? '00' : secT}
                         />
                     </div>
                     <UnderInput>год : хв : сек</UnderInput>

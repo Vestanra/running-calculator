@@ -57,17 +57,15 @@ export const ModalTemp = ({ modalIsOpen, closeModal, pace, onChangePace }) => {
                     <div>
                         <Input
                             type="number"
-                            value={min}
                             name="min"
                             onChange={onChangeMin}
-                            placeholder="0"
+                            placeholder={min.length === 0 ? '0' : min}                            
                         />:
                         <Input
                             type="number"
-                            value={sec}
                             name="sec"
                             onChange={onChangeSec}
-                            placeholder="00"
+                            placeholder={sec.length === 0 ? '00' : sec}
                         />
                     </div>
                     <UnderInput>хв : сек</UnderInput>

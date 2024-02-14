@@ -56,17 +56,15 @@ export const ModalDistance = ({ modalIsOpen, closeModal, distance, onChangeDista
                     <div>
                         <Input
                             type="number"
-                            value={km}
                             name="km"
                             onChange={onChangeKm}
-                            placeholder="0"
+                            placeholder={km.length === 0 ? '0' : km}
                         />,
                         <Input
                             type="number"
-                            value={m}
                             name="m"
                             onChange={onChangeM}
-                            placeholder="0"
+                            placeholder={m.length === 0 ? '0' : m}
                         />
                     </div>
                     <UnderInput>км , м</UnderInput>
