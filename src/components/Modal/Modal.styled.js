@@ -72,7 +72,6 @@ margin-bottom: 16px;
 `;
 
 export const Input = styled.input`
-font-weight: 500;
 width: 60px;
 height: 40px;
 border: 1px solid #ffe855;
@@ -88,6 +87,7 @@ text-align: center;
 `
 export const UnderInput = styled.span`
 text-align: center;
+font-weight: 400;
 `
 
 export const BtnWrap = styled.div`
