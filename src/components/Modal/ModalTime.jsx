@@ -1,43 +1,43 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { Btn, BtnWrap, CloseIcon, Input, ReactModalStyled, Title, Wrap, WrapInput } from "./Modal.styled";
+import { Btn, BtnWrap, CloseIcon, Input, ReactModalStyled, Title, UnderInput, Wrap, WrapInput } from "./Modal.styled";
 
 export const ModalTime = ({ modalIsOpen, closeModal, time, onChangeTime }) => {
-    const [h, setH] = useState(time.split(':')[0])
-    const [min, setMin] = useState(time.split(':')[1])
-    const [sec, setSec] = useState(time.split(':')[2])
+    const [hT, setHT] = useState(time.split(':')[0])
+    const [minT, setMinT] = useState(time.split(':')[1])
+    const [secT, setSecT] = useState(time.split(':')[2])
 
     useEffect(() => {
-        setH(time.split(':')[0])
-        setMin(time.split(':')[1])
-        setSec(time.split(':')[2])
+        setHT(time.split(':')[0] || '0')
+        setMinT(time.split(':')[1])
+        setSecT(time.split(':')[2])
     }, [time])
 
     const onChangeH = (evt) => {
         if (+evt.target.value < 0 || +evt.target.value > 23) {
             return
         }
-        setH(evt.target.value)
-    }
+        setHT(evt.target.value)
+    };
 
     const onChangeMin = (evt) => {
         if (+evt.target.value < 0 || +evt.target.value > 60) {
             return
         }
-        setMin(evt.target.value)
-    }
+        setMinT(evt.target.value)
+    };
 
     const onChangeSec = (evt) => {
         if (+evt.target.value < 0 || +evt.target.value > 60) {
             return
         }
-        setSec(evt.target.value)
-    }
+        setSecT(evt.target.value)
+    };
 
     const onClose = () => {
-        setH(time.split(':')[0])
-        setMin(time.split(':')[1])
-        setSec(time.split(':')[2])
+        setHT(time.split(':')[0])
+        setMinT(time.split(':')[1])
+        setSecT(time.split(':')[2])
         closeModal()
     }
  
@@ -56,13 +56,33 @@ export const ModalTime = ({ modalIsOpen, closeModal, time, onChangeTime }) => {
             <Wrap>
                 <Title>Вкажіть час</Title>
                 <WrapInput>
-                    <Input type="number" value={h} name="h" onChange={onChangeH} />:
-                    <Input type="number" value={min} name="min" onChange={onChangeMin} />:
-                    <Input type="number" value={sec} name="sec" onChange={onChangeSec} /> км
+                    <div>
+                        <Input
+                            type="number"
+                            value={hT}
+                            name="h"
+                            onChange={onChangeH}
+                            placeholder="0"
+                        />:
+                        <Input
+                            type="number"
+                            value={minT}
+                            name="min"
+                            onChange={onChangeMin}
+                            placeholder="00"
+                        />:
+                        <Input
+                            type="number"
+                            value={secT} name="sec"
+                            onChange={onChangeSec}
+                            placeholder="00"
+                        />
+                    </div>
+                    <UnderInput>год : хв : сек</UnderInput>
                 </WrapInput>
                 <BtnWrap>
                     <Btn type="button" onClick={onClose}>відміна</Btn>
-                    <Btn type="button" onClick={() => onChangeTime(h, min, sec)}>ок</Btn>
+                    <Btn type="button" onClick={() => onChangeTime(hT, minT, secT)}>ок</Btn>
                 </BtnWrap>
             </Wrap>
         </ReactModalStyled>

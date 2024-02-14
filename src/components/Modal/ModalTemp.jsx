@@ -1,25 +1,32 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { Btn, BtnWrap, CloseIcon, Input, ReactModalStyled, Title, Wrap, WrapInput } from "./Modal.styled";
+import { Btn, BtnWrap, CloseIcon, Input, ReactModalStyled, Title, UnderInput, Wrap, WrapInput } from "./Modal.styled";
 
 export const ModalTemp = ({ modalIsOpen, closeModal, pace, onChangePace }) => {
     const [min, setMin] = useState(pace.split(':')[0])
     const [sec, setSec] = useState(pace.split(':')[1])
 
     useEffect(() => {
-        setMin(pace.split(':')[0])
-        setSec(pace.split(':')[1])
+        setMin(pace.split(':')[0] || '0')
+        setSec(pace.split(':')[1] || '00')
     }, [pace])
 
     const onChangeMin = (evt) => {
         if (+evt.target.value < 0 || +evt.target.value > 30) {
             return
         }
-        setMin(evt.target.value)
-    }
+        if (evt.target.value === "") {
+            setMin("");
+        } else {
+            setMin(evt.target.value)
+        }
+        
+    };
 
     const onChangeSec = (evt) => {
-        if (+evt.target.value < 0 || +evt.target.value > 60) {
+        if (evt.target.value === "") {
+            setSec("0");
+        } else if (+evt.target.value < 0 || +evt.target.value > 60) {
             return
         }
         setSec(evt.target.value)
@@ -46,14 +53,29 @@ export const ModalTemp = ({ modalIsOpen, closeModal, pace, onChangePace }) => {
             <CloseIcon onClick={onClose} />
             <Wrap>
                 <Title>Вкажіть темп</Title>
-            <WrapInput>
-                <Input type="number" value={min} name="min" onChange={onChangeMin} />:
-                <Input type="number" value={sec} name="sec" onChange={onChangeSec} /> км
-            </WrapInput>
-            <BtnWrap>
-                <Btn type="button" onClick={onClose}>відміна</Btn>
-                <Btn type="button" onClick={() => onChangePace(min, sec)}>ок</Btn>
-            </BtnWrap>
+                <WrapInput>
+                    <div>
+                        <Input
+                            type="number"
+                            value={min}
+                            name="min"
+                            onChange={onChangeMin}
+                            placeholder="0"
+                        />:
+                        <Input
+                            type="number"
+                            value={sec}
+                            name="sec"
+                            onChange={onChangeSec}
+                            placeholder="00"
+                        />
+                    </div>
+                    <UnderInput>хв : сек</UnderInput>
+                </WrapInput>
+                <BtnWrap>
+                    <Btn type="button" onClick={onClose}>відміна</Btn>
+                    <Btn type="button" onClick={() => onChangePace(min, sec)}>ок</Btn>
+                </BtnWrap>
             </Wrap>
         </ReactModalStyled>
     )

@@ -25,10 +25,10 @@ export const Wrap = styled.div`
 display: flex;
 flex-direction: column;
 justify-content: center;
-gap: 24px;
+/* gap: 24px; */
 height: 80%;
 @media (min-width: 768px){
-    gap: 32px;
+    /* gap: 32px; */
   }
 `;
 
@@ -59,13 +59,20 @@ transition: transform 0.3s ease;
 
 export const WrapInput = styled.div`
 display: flex;
+flex-direction: column;
 justify-content: center;
 align-items: center;
-gap: 2px;
+gap: 8px;
 font-weight: 500;
+margin-top: 24px;
+margin-bottom: 16px;
+@media (min-width: 768px){
+  margin-bottom: 12px;
+  }
 `;
 
 export const Input = styled.input`
+font-weight: 500;
 width: 60px;
 height: 40px;
 border: 1px solid #ffe855;
@@ -78,6 +85,9 @@ text-align: center;
 &:focus {
     outline: none;
   }
+`
+export const UnderInput = styled.span`
+text-align: center;
 `
 
 export const BtnWrap = styled.div`

@@ -22,6 +22,7 @@ export const App = () => {
   const [distanceForFormala, setDistanceForFormala] = useState(0)
   const [paceForformula, setPaceForformula] = useState(0)
   const [timeForFormula, setTimeForFormula] = useState(0)
+  const [isTimeChange, setIsTimeChange] = useState(false)
   const [saveResults, setSaveResults] = useState(() => {
     const results = localStorage.getItem("results")
     if (results !== null) {
@@ -39,10 +40,16 @@ export const App = () => {
   const closeModalRace = () => setModalOpenRace(false);
     
   useEffect(() => {
-    setDistanceForFormala(parseFloat(distance.replace(",", ".")))
-    setPaceForformula(+pace.split(":")[0] * 60 + +pace.split(":")[1])
-    setTimeForFormula(+time.split(":")[0] * 60 * 60 + +time.split(":")[1] * 60 + +time.split(":")[2])
-  }, [distance, pace, time])
+    setDistanceForFormala(parseFloat(distance.replace(",", ".")));
+  }, [distance]);
+
+  useEffect(() => {
+    setPaceForformula(+pace.split(":")[0] * 60 + +pace.split(":")[1]);
+  }, [pace]);
+
+  useEffect(() => {
+    setTimeForFormula(+time.split(":")[0] * 60 * 60 + +time.split(":")[1] * 60 + +time.split(":")[2]);
+  }, [time]);
 
   useEffect(() => {
     localStorage.setItem('results', JSON.stringify(saveResults));
@@ -63,23 +70,52 @@ export const App = () => {
   const onButtonsClick = (km) => setDistance(km)
   
   const onChangeDistance = (km, m) => {
-    let dis
-    if (+m === 0) {
-      dis = `${km}`
-    } else {
-      dis = `${km},${m}`
+    if (km.length === 0) {
+      km ='0'
     }
+    if (m.length === 0) {
+      m ='0'
+    }
+    let  dis = `${km},${m}`
     setDistance(dis)
+    setIsTimeChange(false)
     closeModalDis()
   }
 
   const onChangeTime = (h, min, sec) => {
-    setTime(`${h}:${min.padStart(2, '0')}:${sec.padStart(2, '0')}`)
+    console.log(h)
+    if (+h === 0 && +min === 0 && +sec === 0) {
+      console.log('000')
+      setTime('0:00:00')
+      closeModalTime()
+      return
+    }
+    if (h.length === 0) {
+      h ='0'
+    }
+    if (min.length === 0) {
+      min ='00'
+    }
+    if (sec.length === 0) {
+      sec ='00'
+    }
+    
+    let time = `${h}:${min.padStart(2, '0')}:${sec.padStart(2, '0')}`
+    setTime(time)
+    console.log('first')
+    setIsTimeChange(true)
     closeModalTime()
   }
-
   const onChangePace = (min, sec) => {
-    setPace(`${min}:${sec.padStart(2, '0')}`)
+    if (min.length === 0) {
+      setPace(`0:${sec.padStart(2, '0')}`)
+    } else if (sec.length === 0) {
+      setPace(`${min}:00`)
+      console.log(sec.length === 0)
+    } else {
+      setPace(`${min}:${sec.padStart(2, '0')}`)
+    }   
+    setIsTimeChange(false)
     closeModalRace()
   }
     
@@ -96,7 +132,7 @@ export const App = () => {
   const calculateDistance = useCallback(() => {
     const distance = String((timeForFormula / paceForformula).toFixed(2))
     const km = distance.split('.')[0]
-    const m = distance.split('.')[2] || 0
+    const m = distance.split('.')[2] || '0'
     let dis
     if (+m === 0) {
       dis = `${km}`
@@ -108,14 +144,16 @@ export const App = () => {
   }, [paceForformula, timeForFormula])
   
   useEffect(() => {
-    if (distanceForFormala > 0 && paceForformula > 0) {
-      calculateTime();
-    } else if (timeForFormula > 0 && distanceForFormala > 0) {
-      calculatePace();
-    } else if (timeForFormula > 0 && paceForformula > 0) {
-      calculateDistance();
+    if (distanceForFormala > 0 && paceForformula > 0 && !isTimeChange) {
+      return calculateTime();
     }
-  }, [calculateDistance, calculatePace, calculateTime, distanceForFormala, paceForformula, timeForFormula]);
+    if (timeForFormula > 0 && distanceForFormala > 0) {
+      return calculatePace();
+    }
+    if (timeForFormula > 0 && paceForformula > 0) {
+      return calculateDistance();
+    }
+  }, [calculateDistance, calculatePace, calculateTime, distanceForFormala, isTimeChange, paceForformula, timeForFormula]);
 
   const onReset = () => {
     setDistance('0');
@@ -139,7 +177,7 @@ export const App = () => {
       <Main>
         <WrapThougts>
           <TitleTought>Мудрість дня для бігуна:</TitleTought>
-          <TextTought>"Якщо вранці замість того щоб довше поспати ти встаєш бігати - то можливо ти не такий і мудрий"</TextTought>
+          <TextTought>"Якщо вранці замість того, щоб довше поспати ти встаєш бігати - то можливо ти не такий і мудрий"</TextTought>
         </WrapThougts>
         <Buttons onButtonsClick={onButtonsClick} />
         <InputsWrap>
