@@ -87,7 +87,6 @@ export const App = () => {
   }
 
   const onChangeTime = (h, min, sec) => {
-    console.log(h)
     if (+h === 0 && +min === 0 && +sec === 0) {
       setTime('0:00:00')
       closeModalTime()
