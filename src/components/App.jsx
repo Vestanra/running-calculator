@@ -10,7 +10,12 @@ import { useCallback } from "react";
 import { nanoid } from "nanoid";
 import { SavedResults } from "./SavedResults/SavedResults";
 import logo from '../run128.png';
-import { Header, InputsWrap, TitleHeader, ButtonWrap, Button, Main, ButtonTitle, ButtonNumber, ButtonText, SaveResetWrap, SaveResetBtn, SaveTitle, WrapThougts, TitleTought, TextTought, ImgRun } from "./App.styled";
+import {
+  Header, InputsWrap, TitleHeader, ButtonWrap, Button,
+  Main, ButtonTitle, ButtonNumber, ButtonText, SaveResetWrap,
+  SaveResetBtn, SaveTitle, ImgRun
+} from "./App.styled";
+import { Expression } from "./Expression/Expression";
 
 export const App = () => {
   const [modalOpenDis, setModalOpenDis] = useState(false)
@@ -175,10 +180,7 @@ export const App = () => {
         <TitleHeader><ImgRun src={logo} alt="Логотип" /><p>Running calculator</p></TitleHeader>
       </Header>
       <Main>
-        <WrapThougts>
-          <TitleTought>Мудрість дня для бігуна:</TitleTought>
-          <TextTought>"Якщо вранці замість того, щоб довше поспати ти встаєш бігати - то можливо ти не такий і мудрий"</TextTought>
-        </WrapThougts>
+        <Expression/>
         <Buttons onButtonsClick={onButtonsClick} />
         <InputsWrap>
           <ButtonWrap>
