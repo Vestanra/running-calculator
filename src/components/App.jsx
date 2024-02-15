@@ -75,13 +75,12 @@ export const App = () => {
   const onButtonsClick = (km) => setDistance(km)
   
   const onChangeDistance = (km, m) => {
-    if (km.length === 0) {
-      km ='0'
+    let dis
+    if (m === 0) {
+      dis = `${km}`
+    } else {
+      dis = `${km},${m}`
     }
-    if (m.length === 0) {
-      m ='0'
-    }
-    let  dis = `${km},${m}`
     setDistance(dis)
     setIsTimeChange(false)
     closeModalDis()
@@ -90,24 +89,13 @@ export const App = () => {
   const onChangeTime = (h, min, sec) => {
     console.log(h)
     if (+h === 0 && +min === 0 && +sec === 0) {
-      console.log('000')
       setTime('0:00:00')
       closeModalTime()
       return
     }
-    if (h.length === 0) {
-      h ='0'
-    }
-    if (min.length === 0) {
-      min ='00'
-    }
-    if (sec.length === 0) {
-      sec ='00'
-    }
     
     let time = `${h}:${min.padStart(2, '0')}:${sec.padStart(2, '0')}`
     setTime(time)
-    console.log('first')
     setIsTimeChange(true)
     closeModalTime()
   }
@@ -173,6 +161,7 @@ export const App = () => {
   }
   
   const onDeleteResult = (id) => setSaveResults(prvSt => prvSt.filter(el => el.id !== id))
+
   
   return (
     <div>
@@ -186,7 +175,7 @@ export const App = () => {
           <ButtonWrap>
             <Button onClick={openModalDis}>
               <ButtonTitle>Дистанція</ButtonTitle>
-              <ButtonNumber>{distance}</ButtonNumber>
+              <ButtonNumber>{distance.split(',')[1] === '0' ? distance.split(',')[0] : distance}</ButtonNumber>
               <ButtonText>км</ButtonText>
             </Button>
             <ModalDistance
