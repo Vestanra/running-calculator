@@ -19,12 +19,16 @@ margin-left: auto;
 margin-right: auto;
 `
 
-export const TitleHeader = styled.h1`
+export const TitleHeader = styled.div`
 display: flex;
 justify-content: center;
 align-items: center;
 gap: 24px;
 `
+
+export const TextHeader = styled.h1`
+`;
+
 
 export const InputsWrap = styled.div`
 display: flex;

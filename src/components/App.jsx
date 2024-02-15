@@ -13,7 +13,7 @@ import logo from '../run128.png';
 import {
   Header, InputsWrap, TitleHeader, ButtonWrap, Button,
   Main, ButtonTitle, ButtonNumber, ButtonText, SaveResetWrap,
-  SaveResetBtn, SaveTitle, ImgRun
+  SaveResetBtn, SaveTitle, ImgRun, TextHeader
 } from "./App.styled";
 import { Expression } from "./Expression/Expression";
 
@@ -165,7 +165,7 @@ export const App = () => {
   return (
     <div>
       <Header>
-        <TitleHeader><ImgRun src={logo} alt="Логотип" /><p>Running calculator</p></TitleHeader>
+        <TitleHeader><TextHeader>Running calculator</TextHeader><ImgRun src={logo} alt="Логотип" /></TitleHeader>
       </Header>
       <Main>
         <Expression/>
@@ -211,10 +211,10 @@ export const App = () => {
           </ButtonWrap>
         </InputsWrap>
         <SaveResetWrap>
+          <SaveResetBtn type="button" onClick={onReset}>Скинути</SaveResetBtn>
           <SaveResetBtn
             onClick={onSave}
             disabled={(paceForformula > 0 && timeForFormula > 0 && distanceForFormala > 0) ? false : true}>Зберегти</SaveResetBtn>
-          <SaveResetBtn type="button" onClick={onReset}>Скинути</SaveResetBtn>
         </SaveResetWrap>
         {saveResults.length > 0 &&
           <SaveTitle>Збережені результати</SaveTitle>}
