@@ -70,7 +70,6 @@ export const ModalDistance = ({ modalIsOpen, closeModal, distance, onChangeDista
                     <UnderInput>км , м</UnderInput>
                 </WrapInput>
                 <BtnWrap>
-                    <Btn type="button" onClick={onClose}>відміна</Btn>
                     <Btn type="button" onClick={() => onChangeDistance(km, m)}>ок</Btn>
                 </BtnWrap>
             </Wrap>

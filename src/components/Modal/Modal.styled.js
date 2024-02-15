@@ -8,16 +8,16 @@ export const ReactModalStyled = styled(ReactModal)`
   left: 50%;
   transform: translate(-50%, -50%);
   width: 300px;
-  height: 200px;
-  padding: 12px;
+  height: 240px;
+  padding: 16px;
   background-color: rgb(246, 247, 248);
   line-height: 1.1;
   overflow-y: auto;
   border-radius: 16px;
   @media (min-width: 768px){
     width: 360px;
-    height: 280px;
-    padding: 16px;
+    height: 300px;
+    padding: 18px;
   }
 `;
 
@@ -25,10 +25,10 @@ export const Wrap = styled.div`
 display: flex;
 flex-direction: column;
 justify-content: center;
-/* gap: 24px; */
+gap: 24px;
 height: 80%;
 @media (min-width: 768px){
-    /* gap: 32px; */
+    gap: 32px;
   }
 `;
 
@@ -64,11 +64,6 @@ justify-content: center;
 align-items: center;
 gap: 8px;
 font-weight: 500;
-margin-top: 24px;
-margin-bottom: 16px;
-@media (min-width: 768px){
-  margin-bottom: 12px;
-  }
 `;
 
 export const Input = styled.input`
@@ -93,7 +88,6 @@ font-weight: 400;
 export const BtnWrap = styled.div`
 display: flex;
 justify-content: center;
-gap: 12px;
 @media (min-width: 768px){
     justify-content: space-around;
   }
@@ -102,15 +96,18 @@ gap: 12px;
 export const Btn = styled.button`
 width: 90px;
 height: 32px;
-background-color: rgba(255, 223, 18, 0.2);
-border: none;
-font-weight: 500;
 background-color: rgba(35, 31, 32, 0.4);
+border: 1px solid #ffe855;
+font-weight: 500;
 color: white;
 border-radius: 8px;
 font-size: 14px;
 box-shadow: 0 2px 4px rgba(35, 31, 32, 0.5);
 transition: transform 0.1s ease;
+@media (min-width: 768px){
+    width: 100px;
+    height: 38px;
+  }
 
 &:hover {
     transform: scale(1.05, 1.05);

@@ -79,7 +79,6 @@ export const ModalTime = ({ modalIsOpen, closeModal, time, onChangeTime }) => {
                     <UnderInput>год : хв : сек</UnderInput>
                 </WrapInput>
                 <BtnWrap>
-                    <Btn type="button" onClick={onClose}>відміна</Btn>
                     <Btn type="button" onClick={() => onChangeTime(hT, minT, secT)}>ок</Btn>
                 </BtnWrap>
             </Wrap>

@@ -71,7 +71,6 @@ export const ModalTemp = ({ modalIsOpen, closeModal, pace, onChangePace }) => {
                     <UnderInput>хв : сек</UnderInput>
                 </WrapInput>
                 <BtnWrap>
-                    <Btn type="button" onClick={onClose}>відміна</Btn>
                     <Btn type="button" onClick={() => onChangePace(min, sec)}>ок</Btn>
                 </BtnWrap>
             </Wrap>
