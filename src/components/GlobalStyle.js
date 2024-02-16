@@ -26,6 +26,7 @@ ul {
 
 button {
     cursor: pointer;
+    color: black;
 }
 
 p {
