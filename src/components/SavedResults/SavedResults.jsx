@@ -6,7 +6,7 @@ export const SavedResults = ({ list, onDelete }) => {
             {list.map(el =>
                 <LiWrap key={el.id}>
                     <WrapText>
-                        <p>{el.distance} км</p>
+                        <p>{el.distance.split(',')[1] === '0' ? el.distance.split(',')[0] : el.distance} км</p>
                         <p>{el.pace} / {el.time}</p>
                     </WrapText>
                     <Icon onClick={() => onDelete(el.id)} />
