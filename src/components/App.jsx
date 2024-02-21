@@ -79,7 +79,7 @@ export const App = () => {
     if (m === 0) {
       dis = `${km}`
     } else {
-      dis = `${km},${m}`
+      dis = `${km || "0"},${m}`
     }
     setDistance(dis)
     setIsTimeChange(false)
@@ -93,7 +93,7 @@ export const App = () => {
       return
     }
     
-    let time = `${h}:${min.padStart(2, '0')}:${sec.padStart(2, '0')}`
+    let time = `${h || '0'}:${min.padStart(2, '0')}:${sec.padStart(2, '0')}`
     setTime(time)
     setIsTimeChange(true)
     closeModalTime()
