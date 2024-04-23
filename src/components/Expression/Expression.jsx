@@ -4,7 +4,7 @@ import allThoughts from "../../data/expressions.json";
 
 export const Expression = () => {
     const [tought, setSought] = useState({});
-    const [title] = useState("Гарного старту в Хусті, біжи як блискавка - швидко і блискуче!")
+    const [title] = useState("Гарного старту в Хусті, біжи як блискавка - швидко і яскраво!")
 
     function getRandomNumberInRange(max) {
     return Math.floor(Math.random() * max) + 1;

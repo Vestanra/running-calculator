@@ -22,7 +22,7 @@ export const TextTought = styled.p`
 `
 export const Title = styled.p`
 font-weight: 500;
-font-size: 16px;
+font-size: 15px;
 text-align: center;
 font-style: normal;
 `
