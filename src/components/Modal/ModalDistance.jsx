@@ -5,14 +5,15 @@ import { Btn, BtnWrap, CloseIcon, Input, ReactModalStyled, Title, UnderInput, Wr
 ReactModal.setAppElement('#root');
 
 export const ModalDistance = ({ modalIsOpen, closeModal, distance, onChangeDistance }) => {
-    const [km, setKm] = useState(distance.split(',')[0])
-    const [m, setM] = useState(distance.split(',')[1] || '0')
+    const [km, setKm] = useState(distance.split(',')[0]);
+    const [m, setM] = useState(distance.split(',')[1] || '0');
+    const [isKmFocused, setIsKmFocused] = useState(false);
+    const [isMFocused, setIsMFocused] = useState(false);
 
     useEffect(() => {
         setKm(distance.split(',')[0]);
         setM(distance.split(',')[1] || '0');
     }, [distance]);
-
 
     const onChangeKm = (evt) => {
         if (+evt.target.value < 0 || +evt.target.value > 100) {
@@ -58,13 +59,17 @@ export const ModalDistance = ({ modalIsOpen, closeModal, distance, onChangeDista
                             type="number"
                             name="km"
                             onChange={onChangeKm}
-                            placeholder={km.length === 0 ? '0' : km}
+                            onFocus={() => setIsKmFocused(true)}
+                            onBlur={() => setIsKmFocused(false)}
+                            placeholder={isKmFocused ? '' : (km.length === 0 ? '0' : km)}
                         />,
                         <Input
                             type="number"
                             name="m"
                             onChange={onChangeM}
-                            placeholder={m.length === 0 ? '0' : m}
+                            onFocus={() => setIsMFocused(true)}
+                            onBlur={() => setIsMFocused(false)}
+                            placeholder={isMFocused ? '' : (m.length === 0 ? '0' : m)}
                         />
                     </div>
                     <UnderInput>км , м</UnderInput>

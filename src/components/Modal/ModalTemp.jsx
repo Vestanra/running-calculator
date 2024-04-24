@@ -3,9 +3,11 @@ import { useState } from "react";
 import { Btn, BtnWrap, CloseIcon, Input, ReactModalStyled, Title, UnderInput, Wrap, WrapInput } from "./Modal.styled";
 
 export const ModalTemp = ({ modalIsOpen, closeModal, pace, onChangePace }) => {
-    const [min, setMin] = useState(pace.split(':')[0])
-    const [sec, setSec] = useState(pace.split(':')[1])
-
+    const [min, setMin] = useState(pace.split(':')[0]);
+    const [sec, setSec] = useState(pace.split(':')[1]);
+    const [isMinFocused, setIsMinFocused] = useState(false);
+    const [isSecFocused, setIsSecFocused] = useState(false);
+;
     useEffect(() => {
         setMin(pace.split(':')[0] || '0')
         setSec(pace.split(':')[1] || '00')
@@ -19,8 +21,7 @@ export const ModalTemp = ({ modalIsOpen, closeModal, pace, onChangePace }) => {
             setMin("");
         } else {
             setMin(evt.target.value)
-        }
-        
+        }        
     };
 
     const onChangeSec = (evt) => {
@@ -59,13 +60,17 @@ export const ModalTemp = ({ modalIsOpen, closeModal, pace, onChangePace }) => {
                             type="number"
                             name="min"
                             onChange={onChangeMin}
-                            placeholder={min.length === 0 ? '0' : min}                            
+                            onFocus={() => setIsMinFocused(true)}
+                            onBlurCapture={() => setIsMinFocused(false)}                            
+                            placeholder={isMinFocused ? '' : (min.length === 0 ? '0' : min)}                            
                         />:
                         <Input
                             type="number"
                             name="sec"
                             onChange={onChangeSec}
-                            placeholder={sec.length === 0 ? '00' : sec}
+                            onFocus={() => setIsSecFocused(true)}
+                            onBlurCapture={() => setIsSecFocused(false)}   
+                            placeholder={isSecFocused ? '' : (sec.length === 0 ? '00' : sec)}
                         />
                     </div>
                     <UnderInput>хв : сек</UnderInput>

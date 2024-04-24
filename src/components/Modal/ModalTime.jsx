@@ -3,9 +3,12 @@ import { useState } from "react";
 import { Btn, BtnWrap, CloseIcon, Input, ReactModalStyled, Title, UnderInput, Wrap, WrapInput } from "./Modal.styled";
 
 export const ModalTime = ({ modalIsOpen, closeModal, time, onChangeTime }) => {
-    const [hT, setHT] = useState(time.split(':')[0])
-    const [minT, setMinT] = useState(time.split(':')[1])
-    const [secT, setSecT] = useState(time.split(':')[2])
+    const [hT, setHT] = useState(time.split(':')[0]);
+    const [minT, setMinT] = useState(time.split(':')[1]);
+    const [secT, setSecT] = useState(time.split(':')[2]);
+    const [isHTFocused, setIsHTFocused] = useState(false);
+    const [isMinTFocused, setIsMinTFocused] = useState(false);
+    const [isSecTFocused, setIsSecTFocused] = useState(false);
 
     useEffect(() => {
         setHT(time.split(':')[0] || '0')
@@ -61,19 +64,25 @@ export const ModalTime = ({ modalIsOpen, closeModal, time, onChangeTime }) => {
                             type="number"
                             name="h"
                             onChange={onChangeH}
-                            placeholder={hT.length === 0 ? '00' : hT}
+                            onFocus={() => setIsHTFocused(true)}
+                            onBlur={() => setIsHTFocused(false)}
+                            placeholder={isHTFocused ? '' : (hT.length === 0 ? '00' : hT)}
                         />:
                         <Input
                             type="number"
                             name="min"
                             onChange={onChangeMin}
-                            placeholder={minT.length === 0 ? '00' : minT}
+                            onFocus={() => setIsMinTFocused(true)}
+                            onBlur={() => setIsMinTFocused(false)}
+                            placeholder={isMinTFocused ? '' : (minT.length === 0 ? '00' : minT)}
                         />:
                         <Input
                             type="number"
                             name="sec"
                             onChange={onChangeSec}
-                            placeholder={secT.length === 0 ? '00' : secT}
+                            onFocus={() => setIsSecTFocused(true)}
+                            onBlur={() => setIsSecTFocused(false)}
+                            placeholder={isSecTFocused ? '' : (secT.length === 0 ? '00' : secT)}
                         />
                     </div>
                     <UnderInput>год : хв : сек</UnderInput>
