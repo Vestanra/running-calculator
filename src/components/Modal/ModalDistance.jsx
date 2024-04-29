@@ -16,7 +16,7 @@ export const ModalDistance = ({ modalIsOpen, closeModal, distance, onChangeDista
     }, [distance]);
 
     const onChangeKm = (evt) => {
-        if (+evt.target.value < 0 || +evt.target.value > 100) {
+        if (+evt.target.value < 0 || +evt.target.value > 999) {
             return;
         }
         if (evt.target.value === "") {
