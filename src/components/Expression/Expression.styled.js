@@ -5,9 +5,12 @@ font-size: 14px;
 color: rgba(35, 31, 32, 0.8);
 font-style: italic;
 padding: 12px 28px;
+max-width: 560px;
+margin-left: auto;
+margin-right: auto;
 @media  (min-width: 768px){
-    padding: 12 120px;
-    font-size: 16px;
+  padding: 12 120px;
+  font-size: 16px;
   } 
 `
 
