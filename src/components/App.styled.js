@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 export const Header = styled.header`
 width: 100%;
@@ -7,10 +7,36 @@ background-color: #ffe855;
 text-align: center;
 `
 
-export const ImgRun = styled.img`
-width: 30px;
-height: 30px;
+const runLeftAndBack = keyframes`
+  0%   { transform: translateX(0) rotateY(0deg) rotateZ(0deg); opacity: 1; }
+  40%  { transform: translateX(100px) rotateY(0deg) rotateZ(0deg); opacity: 0; } 
+  50%  { transform: translateX(100px) rotateY(180deg) rotateZ(0deg); opacity: 0; } 
+  90%  { transform: translateX(0) rotateY(180deg) rotateZ(0deg); opacity: 1; }
+  95%  { transform: translateX(0) rotateY(180deg) rotateZ(0deg); opacity: 1; }
+  100% { transform: translateX(0) rotateY(360deg) rotateZ(180deg); opacity: 1; } 
 `;
+
+export const ImgRun = styled.img`
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  transform-origin: center;
+  animation: ${({ run }) => (run ? runLeftAndBack : 'none')} 2s ease-in-out;
+`;
+
+// export const ImgRun = styled.img`
+//   width: 30px;
+//   height: 30px;
+//   cursor: pointer;
+//   transition: transform 0.5s ease;
+
+//   ${({ rotated }) =>
+//     rotated &&
+//     css`
+//       transform: rotate(360deg);
+//     `}
+// `;
+
 
 export const Main = styled.main`
 padding: 16px;
@@ -23,10 +49,12 @@ export const TitleHeader = styled.div`
 display: flex;
 justify-content: center;
 align-items: center;
-gap: 24px;
+gap: 16px;
 `
 
 export const TextHeader = styled.h1`
+ font-style: italic;
+ font-size: 24px;
 `;
 
 
@@ -92,9 +120,15 @@ font-size: 14px;
 transition: box-shadow 0.1s ease;
 box-shadow: 0 2px 4px rgba(35, 31, 32, 0.5);
 
-&:hover {
+&:hover:not(:disabled)  {
     box-shadow: 0px 4px 8px 0px rgba(35, 31, 32, 0.5);
   }
+
+&:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
 
 @media (min-width: 768px){
     width: 110px;

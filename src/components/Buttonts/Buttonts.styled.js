@@ -1,15 +1,24 @@
 import styled from "styled-components";
 
+export const ButtonsContainer = styled.div`
+max-width: 560px;
+margin-left: auto;
+margin-right: auto;
+margin-bottom: 32px;
+`
+
 export const ButtonsWrap = styled.div`
 display: flex;
 justify-content: space-between;
 margin-top: 16px;
-margin-bottom: 32px;
 font-size: 14px;
+padding: 0 8px;
+gap: 16px;
 @media (min-width: 768px){
     margin-top: 32px;
     gap: 16px;
     justify-content: center;
+    padding: 0 32px;
     font-size: 16px;
   }
 `
@@ -20,7 +29,8 @@ display: flex;
 flex-direction: column;
 justify-content: center;
 align-items: center;
-width: 50px;
+flex: 1;
+/* width: 60px; */
 background-color: rgba(255, 223, 18, 0.2);
 border: none;
 border-radius: 8px;
