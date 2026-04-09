@@ -15,35 +15,41 @@ import {
   Main, ButtonTitle, ButtonNumber, ButtonText, SaveResetWrap,
   SaveResetBtn, SaveTitle, ImgRun, TextHeader
 } from "./App.styled";
-import { Expression } from "./Expression/Expression";
 
 export const App = () => {
-  const [modalOpenDis, setModalOpenDis] = useState(false)
-  const [modalOpenTime, setModalOpenTime] = useState(false)
-  const [modalOpenRace, setModalOpenRace] = useState(false)
-  const [distance, setDistance] = useState('0')
-  const [pace, setPace] = useState("0:00")
-  const [time, setTime] = useState("0:00:00")
-  const [distanceForFormala, setDistanceForFormala] = useState(0)
-  const [paceForformula, setPaceForformula] = useState(0)
-  const [timeForFormula, setTimeForFormula] = useState(0)
-  const [isTimeChange, setIsTimeChange] = useState(false)
+  const [run, setRun] = useState(false);
+  const [modalOpenDis, setModalOpenDis] = useState(false);
+  const [modalOpenTime, setModalOpenTime] = useState(false);
+  const [modalOpenRace, setModalOpenRace] = useState(false);
+  const [distance, setDistance] = useState('0');
+  const [pace, setPace] = useState("0:00");
+  const [time, setTime] = useState("0:00:00");
+  const [distanceForFormala, setDistanceForFormala] = useState(0);
+  const [paceForformula, setPaceForformula] = useState(0);
+  const [timeForFormula, setTimeForFormula] = useState(0);
+  const [lastChanged, setLastChanged] = useState(null); // 'distance' | 'time' | 'pace'
   const [saveResults, setSaveResults] = useState(() => {
-    const results = localStorage.getItem("results")
+    const results = localStorage.getItem("results");
     if (results !== null) {
-      return (JSON.parse(results))
+      return JSON.parse(results);
     } else {
-      return []
+      return [];
     }
   });
-  
+
   const openModalDis = () => setModalOpenDis(true);
   const closeModalDis = () => setModalOpenDis(false);
   const openModalTime = () => setModalOpenTime(true);
   const closeModalTime = () => setModalOpenTime(false);
   const openModalRace = () => setModalOpenRace(true);
   const closeModalRace = () => setModalOpenRace(false);
-    
+
+  const handleClick = () => {
+    setRun(true);
+    // автоматично скидаємо стан через час анімації
+    setTimeout(() => setRun(false), 2000);
+  };
+
   useEffect(() => {
     setDistanceForFormala(parseFloat(distance.replace(",", ".")));
   }, [distance]);
@@ -58,7 +64,7 @@ export const App = () => {
 
   useEffect(() => {
     localStorage.setItem('results', JSON.stringify(saveResults));
-  }, [saveResults])
+  }, [saveResults]);
 
   useEffect(() => {
     const body = document.body;
@@ -71,117 +77,144 @@ export const App = () => {
       body.style.overflow = 'auto';
     };
   }, [modalOpenDis, modalOpenRace, modalOpenTime]);
-  
-  const onButtonsClick = (km) => setDistance(km)
-  
+
+  const onButtonsClick = (km) => {
+    setDistance(km);
+    setLastChanged("distance");
+  };
+
   const onChangeDistance = (km, m) => {
-    let dis
+    let dis;
     if (m === 0) {
-      dis = `${km}`
+      dis = `${km}`;
     } else {
-      dis = `${km || "0"},${m}`
+      dis = `${km || "0"},${m}`;
     }
-    setDistance(dis)
-    setIsTimeChange(false)
-    closeModalDis()
-  }
+    setDistance(dis);
+    setLastChanged("distance");
+    closeModalDis();
+  };
 
   const onChangeTime = (h, min, sec) => {
     if (+h === 0 && +min === 0 && +sec === 0) {
-      setTime('0:00:00')
-      closeModalTime()
-      return
+      setTime('0:00:00');
+      setLastChanged("time");
+      closeModalTime();
+      return;
     }
-    
-    let time = `${h || '0'}:${min.padStart(2, '0')}:${sec.padStart(2, '0')}`
-    setTime(time)
-    setIsTimeChange(true)
-    closeModalTime()
-  }
+    let newTime = `${h || '0'}:${min.padStart(2, '0')}:${sec.padStart(2, '0')}`;
+    setTime(newTime);
+    setLastChanged("time");
+    closeModalTime();
+  };
+
   const onChangePace = (min, sec) => {
     if (min.length === 0) {
-      setPace(`0:${sec.padStart(2, '0')}`)
+      setPace(`0:${sec.padStart(2, '0')}`);
     } else if (sec.length === 0) {
-      setPace(`${min}:00`)
-      console.log(sec.length === 0)
+      setPace(`${min}:00`);
     } else {
-      setPace(`${min}:${sec.padStart(2, '0')}`)
-    }   
-    setIsTimeChange(false)
-    closeModalRace()
-  }
-    
+      setPace(`${min}:${sec.padStart(2, '0')}`);
+    }
+    setLastChanged("pace");
+    closeModalRace();
+  };
+
   const calculateTime = useCallback(() => {
-    const seconds = Math.round(distanceForFormala * paceForformula)
-    setTime(convertToHMS(seconds))
-  }, [distanceForFormala, paceForformula])
- 
+    const seconds = Math.round(distanceForFormala * paceForformula);
+    setTime(convertToHMS(seconds));
+  }, [distanceForFormala, paceForformula]);
+
   const calculatePace = useCallback(() => {
-    const seconds = Math.round(timeForFormula / distanceForFormala)
-    setPace(convertToMS(seconds))
-  }, [distanceForFormala, timeForFormula])
+    const seconds = Math.round(timeForFormula / distanceForFormala);
+    setPace(convertToMS(seconds));
+  }, [distanceForFormala, timeForFormula]);
 
   const calculateDistance = useCallback(() => {
-    const distance = String((timeForFormula / paceForformula).toFixed(2))
-    const km = distance.split('.')[0]
-    const m = distance.split('.')[2] || '0'
-    let dis
+    const distance = String((timeForFormula / paceForformula).toFixed(2));
+    const km = distance.split('.')[0];
+    const m = distance.split('.')[1] || '0';
+    let dis;
     if (+m === 0) {
-      dis = `${km}`
+      dis = `${km}`;
     } else {
-      dis = `${km},${m}`
+      dis = `${km},${m}`;
     }
-    
-    setDistance(dis)
-  }, [paceForformula, timeForFormula])
-  
+    setDistance(dis);
+  }, [paceForformula, timeForFormula]);
+
   useEffect(() => {
-    if (distanceForFormala > 0 && paceForformula > 0 && !isTimeChange) {
-      return calculateTime();
+    if (paceForformula > 0) {
+      if (lastChanged === "time" && timeForFormula > 0) {
+        calculateDistance();
+      } else if (lastChanged === "distance" && distanceForFormala > 0) {
+        calculateTime();
+      } else if (
+        lastChanged === "pace" &&
+        distanceForFormala > 0 &&
+        paceForformula > 0
+      ) {
+        calculateTime();
+      }
+    } else {
+      if (lastChanged === "distance" || lastChanged === "time") {
+        if (distanceForFormala > 0 && timeForFormula > 0) {
+          calculatePace();
+        }
+      }
     }
-    if (timeForFormula > 0 && distanceForFormala > 0) {
-      return calculatePace();
-    }
-    if (timeForFormula > 0 && paceForformula > 0) {
-      return calculateDistance();
-    }
-  }, [calculateDistance, calculatePace, calculateTime, distanceForFormala, isTimeChange, paceForformula, timeForFormula]);
+  }, [
+    distanceForFormala,
+    paceForformula,
+    timeForFormula,
+    calculateTime,
+    calculatePace,
+    calculateDistance,
+    lastChanged
+  ]);
 
   const onReset = () => {
     setDistance('0');
     setPace("0:00");
     setTime("0:00:00");
+    setLastChanged(null);
   };
 
   const onSave = () => {
     if (paceForformula > 0 && timeForFormula > 0 && distanceForFormala > 0) {
-      setSaveResults(prvSt => [{ distance, pace, time, id: nanoid() }, ...prvSt])
+      setSaveResults(prvSt => [{ distance, pace, time, id: nanoid() }, ...prvSt]);
     }
-  }
-  
-  const onDeleteResult = (id) => setSaveResults(prvSt => prvSt.filter(el => el.id !== id))
+  };
 
-  
+  const onDeleteResult = (id) =>
+    setSaveResults(prvSt => prvSt.filter(el => el.id !== id));
+
   return (
     <div>
       <Header>
-        <TitleHeader><TextHeader>Running calculator</TextHeader><ImgRun src={logo} alt="Логотип" /></TitleHeader>
+        <TitleHeader>
+          <TextHeader>Running calculator</TextHeader>
+          <ImgRun src={logo} run={run} onClick={handleClick} alt="Логотип" />
+        </TitleHeader>
       </Header>
       <Main>
-        <Expression/>
+        {/* <Expression /> */}
         <Buttons onButtonsClick={onButtonsClick} />
         <InputsWrap>
           <ButtonWrap>
             <Button onClick={openModalDis}>
               <ButtonTitle>Дистанція</ButtonTitle>
-              <ButtonNumber>{distance.split(',')[1] === '0' ? distance.split(',')[0] : distance}</ButtonNumber>
+              <ButtonNumber>
+                {distance.split(',')[1] === '0' ? distance.split(',')[0] : distance}
+              </ButtonNumber>
               <ButtonText>км</ButtonText>
             </Button>
             <ModalDistance
               modalIsOpen={modalOpenDis}
               closeModal={closeModalDis}
               distance={distance}
-              onChangeDistance={onChangeDistance} />
+              onChangeDistance={onChangeDistance}
+            />
           </ButtonWrap>
           <ButtonWrap>
             <Button onClick={openModalRace}>
@@ -211,13 +244,23 @@ export const App = () => {
           </ButtonWrap>
         </InputsWrap>
         <SaveResetWrap>
-          <SaveResetBtn type="button" onClick={onReset}>Скинути</SaveResetBtn>
+          <SaveResetBtn type="button" onClick={onReset}>
+            Скинути
+          </SaveResetBtn>
           <SaveResetBtn
             onClick={onSave}
-            disabled={(paceForformula > 0 && timeForFormula > 0 && distanceForFormala > 0) ? false : true}>Зберегти</SaveResetBtn>
+            disabled={
+              paceForformula > 0 && timeForFormula > 0 && distanceForFormala > 0
+                ? false
+                : true
+            }
+          >
+            Зберегти
+          </SaveResetBtn>
         </SaveResetWrap>
-        {saveResults.length > 0 &&
-          <SaveTitle>Збережені результати</SaveTitle>}
+        {saveResults.length > 0 && (
+          <SaveTitle>Збережені результати</SaveTitle>
+        )}
         <SavedResults list={saveResults} onDelete={onDeleteResult} />
       </Main>
       <GlobalStyle />
