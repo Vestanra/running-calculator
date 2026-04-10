@@ -24,20 +24,6 @@ export const ImgRun = styled.img`
   animation: ${({ run }) => (run ? runLeftAndBack : 'none')} 2s ease-in-out;
 `;
 
-// export const ImgRun = styled.img`
-//   width: 30px;
-//   height: 30px;
-//   cursor: pointer;
-//   transition: transform 0.5s ease;
-
-//   ${({ rotated }) =>
-//     rotated &&
-//     css`
-//       transform: rotate(360deg);
-//     `}
-// `;
-
-
 export const Main = styled.main`
 padding: 16px;
 max-width: 768px;
@@ -111,7 +97,6 @@ margin-bottom: 36px;
 export const SaveResetBtn = styled.button`
 width: 90px;
 height: 32px;
-border: none;
 font-weight: 500;
 background-color: rgba(35, 31, 32, 0.4);
 color: white;
@@ -119,6 +104,7 @@ border-radius: 8px;
 font-size: 14px;
 transition: box-shadow 0.1s ease;
 box-shadow: 0 2px 4px rgba(35, 31, 32, 0.5);
+border: 1px solid  rgba(255, 223, 18);
 
 &:hover:not(:disabled)  {
     box-shadow: 0px 4px 8px 0px rgba(35, 31, 32, 0.5);
