@@ -189,6 +189,17 @@ export const App = () => {
   const onDeleteResult = (id) =>
     setSaveResults(prvSt => prvSt.filter(el => el.id !== id));
 
+  const formatDistance = (distance) => {
+    const value = Number(distance.replace(',', '.'));
+    if (Number.isNaN(value)) return distance;
+  
+    const rounded = Math.floor(value * 10) / 10;
+  
+    return rounded % 1 === 0
+      ? String(rounded)
+      : String(rounded).replace('.', ',');
+  };
+
   return (
     <div>
       <Header>
@@ -205,7 +216,7 @@ export const App = () => {
             <Button onClick={openModalDis}>
               <ButtonTitle>Дистанція</ButtonTitle>
               <ButtonNumber>
-                {distance.split(',')[1] === '0' ? distance.split(',')[0] : distance}
+                {formatDistance(distance)}
               </ButtonNumber>
               <ButtonText>км</ButtonText>
             </Button>
