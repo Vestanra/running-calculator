@@ -3,11 +3,8 @@ import { Icon, LiWrap, UlWrap, WrapText } from "./SavedResults.styled"
 export const SavedResults = ({ list, onDelete }) => {
     const formatDistance = (distance) => {
         if (!distance.includes(',')) return distance;
-      
         const [km, m = '0'] = distance.split(',');
-      
-        const oneDigit = m[0]; // беремо тільки 1 цифру
-      
+        const oneDigit = m[0];
         if (oneDigit === '0') return km;
       
         return `${km},${oneDigit}`;

@@ -192,9 +192,7 @@ export const App = () => {
   const formatDistance = (distance) => {
     const value = Number(distance.replace(',', '.'));
     if (Number.isNaN(value)) return distance;
-  
     const rounded = Math.floor(value * 10) / 10;
-  
     return rounded % 1 === 0
       ? String(rounded)
       : String(rounded).replace('.', ',');
