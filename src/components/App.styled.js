@@ -19,8 +19,8 @@ const runLeftAndBack = keyframes`
 `;
 
 export const ImgRun = styled.img`
-  width: 24px;
   height: 24px;
+  width: 24px;
   cursor: pointer;
   transform-origin: center bottom;
   animation: ${({ $run }) => ($run ? runLeftAndBack : 'none')} 2s cubic-bezier(0.65, 0, 0.35, 1);
