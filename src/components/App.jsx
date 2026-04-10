@@ -203,7 +203,7 @@ export const App = () => {
       <Header>
         <TitleHeader>
           <TextHeader>Running calculator</TextHeader>
-          <ImgRun src={logo} run={run} onClick={handleClick} alt="Логотип" />
+          <ImgRun src={logo} $run={run} onClick={handleClick} alt="Логотип" />
         </TitleHeader>
       </Header>
       <Main>
