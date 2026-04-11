@@ -46,7 +46,6 @@ export const App = () => {
 
   const handleClick = () => {
     setRun(true);
-    // автоматично скидаємо стан через час анімації
     setTimeout(() => setRun(false), 2000);
   };
 
@@ -143,26 +142,24 @@ export const App = () => {
     setDistance(dis);
   }, [paceForformula, timeForFormula]);
 
+
   useEffect(() => {
-    if (paceForformula > 0) {
-      if (lastChanged === "time" && timeForFormula > 0) {
-        calculateDistance();
-      } else if (lastChanged === "distance" && distanceForFormala > 0) {
+      if (lastChanged === "distance" && distanceForFormala > 0 && timeForFormula > 0 && paceForformula === 0) {
+        calculatePace();
+      } 
+      if (lastChanged === "distance" && distanceForFormala > 0 && timeForFormula > 0 && paceForformula > 0) {
         calculateTime();
-      } else if (
+      } 
+      if (
         lastChanged === "pace" &&
         distanceForFormala > 0 &&
         paceForformula > 0
       ) {
         calculateTime();
       }
-    } else {
-      if (lastChanged === "distance" || lastChanged === "time") {
-        if (distanceForFormala > 0 && timeForFormula > 0) {
+      if (lastChanged === "time" && distanceForFormala > 0 && timeForFormula > 0 ) {
           calculatePace();
-        }
       }
-    }
   }, [
     distanceForFormala,
     paceForformula,
