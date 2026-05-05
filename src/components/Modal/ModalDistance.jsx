@@ -6,13 +6,13 @@ ReactModal.setAppElement('#root');
 
 export const ModalDistance = ({ modalIsOpen, closeModal, distance, onChangeDistance }) => {
     const [km, setKm] = useState(distance.split(',')[0]);
-    const [m, setM] = useState(distance.split(',')[1] || '0');
+    const [m, setM] = useState(distance.split(',')[1] || '00');
     const [isKmFocused, setIsKmFocused] = useState(false);
     const [isMFocused, setIsMFocused] = useState(false);
 
     useEffect(() => {
         setKm(distance.split(',')[0]);
-        setM(distance.split(',')[1] || '0');
+        setM(distance.split(',')[1] || '00');
     }, [distance]);
 
     const onChangeKm = (evt) => {
@@ -27,7 +27,7 @@ export const ModalDistance = ({ modalIsOpen, closeModal, distance, onChangeDista
     };
 
     const onChangeM = (evt) => {
-        if (+evt.target.value < 0 || +evt.target.value > 9) {
+        if (+evt.target.value < 0 || +evt.target.value > 99) {
             return
         }
         setM(evt.target.value)
@@ -35,7 +35,7 @@ export const ModalDistance = ({ modalIsOpen, closeModal, distance, onChangeDista
 
     const onClose = () => {
         setKm(distance.split(',')[0])
-        setM(distance.split(',')[1] || '0')
+        setM(distance.split(',')[1] || '00')
         closeModal()
     }
  
@@ -69,7 +69,7 @@ export const ModalDistance = ({ modalIsOpen, closeModal, distance, onChangeDista
                             onChange={onChangeM}
                             onFocus={() => setIsMFocused(true)}
                             onBlur={() => setIsMFocused(false)}
-                            placeholder={isMFocused ? '' : (m.length === 0 ? '0' : m)}
+                            placeholder={isMFocused ? '' : (m.length === 0 ? '00' : m.padStart(2, '0'))}
                         />
                     </div>
                     <UnderInput>км , м</UnderInput>
