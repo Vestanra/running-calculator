@@ -84,10 +84,10 @@ export const App = () => {
 
   const onChangeDistance = (km, m) => {
     let dis;
-    if (m === 0) {
-      dis = `${km}`;
+    if (+m === 0) {
+      dis = `${km || '0'}`;
     } else {
-      dis = `${km || "0"},${m}`;
+      dis = `${km || "0"},${m.padStart(2, '0')}`;
     }
     setDistance(dis);
     setLastChanged("distance");
@@ -150,15 +150,17 @@ export const App = () => {
       if (lastChanged === "distance" && distanceForFormala > 0 && timeForFormula > 0 && paceForformula > 0) {
         calculateTime();
       } 
-      if (
-        lastChanged === "pace" &&
-        distanceForFormala > 0 &&
-        paceForformula > 0
-      ) {
+      if (lastChanged === "pace" && distanceForFormala > 0 && paceForformula > 0) {
         calculateTime();
       }
-      if (lastChanged === "time" && distanceForFormala > 0 && timeForFormula > 0 ) {
-          calculatePace();
+      if (lastChanged === "pace" && distanceForFormala === 0 && paceForformula > 0 && timeForFormula > 0) {
+        calculateDistance();
+      }
+      if (lastChanged === "time" && distanceForFormala > 0 && timeForFormula > 0) {
+        calculatePace();
+      }
+      if (lastChanged === "time" && distanceForFormala === 0 && timeForFormula > 0 && paceForformula > 0) {
+        calculateDistance();
       }
   }, [
     distanceForFormala,
@@ -189,10 +191,9 @@ export const App = () => {
   const formatDistance = (distance) => {
     const value = Number(distance.replace(',', '.'));
     if (Number.isNaN(value)) return distance;
-    const rounded = Math.floor(value * 10) / 10;
-    return rounded % 1 === 0
-      ? String(rounded)
-      : String(rounded).replace('.', ',');
+    const rounded = Math.round(value * 100) / 100;
+    if (rounded % 1 === 0) return String(rounded);
+    return rounded.toFixed(2).replace('.', ',');
   };
 
   return (

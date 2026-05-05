@@ -2,13 +2,12 @@ import { Icon, LiWrap, UlWrap, WrapText } from "./SavedResults.styled"
 
 export const SavedResults = ({ list, onDelete }) => {
     const formatDistance = (distance) => {
-        if (!distance.includes(',')) return distance;
-        const [km, m = '0'] = distance.split(',');
-        const oneDigit = m[0];
-        if (oneDigit === '0') return km;
-      
-        return `${km},${oneDigit}`;
-      };
+        const value = Number(distance.replace(',', '.'));
+        if (Number.isNaN(value)) return distance;
+        const rounded = Math.round(value * 100) / 100;
+        if (rounded % 1 === 0) return String(rounded);
+        return rounded.toFixed(2).replace('.', ',');
+    };
     return (
         <UlWrap>
             {list.map(el =>
