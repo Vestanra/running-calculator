@@ -27,7 +27,7 @@ export const App = () => {
   const [distanceForFormala, setDistanceForFormala] = useState(0);
   const [paceForformula, setPaceForformula] = useState(0);
   const [timeForFormula, setTimeForFormula] = useState(0);
-  const [lastChanged, setLastChanged] = useState(null); // 'distance' | 'time' | 'pace'
+  const [lastChanged, setLastChanged] = useState(null);
   const [saveResults, setSaveResults] = useState(() => {
     const results = localStorage.getItem("results");
     if (results !== null) {
