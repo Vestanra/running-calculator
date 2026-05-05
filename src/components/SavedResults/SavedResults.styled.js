@@ -15,7 +15,7 @@ display: flex;
 justify-content: space-between;
 align-items: center;
 width: 100%;
-border: 1px solid rgba(35, 31, 32, 0.2);
+border: 1px solid var(--border);
 border-radius: 4px;
 font-size: 14px;
 font-weight: 500;
@@ -35,7 +35,7 @@ justify-content: space-between;
 export const Icon = styled(RiDeleteBinLine)`
 width: 18px;
 height: 18px;
-fill: rgba(35, 31, 32, 0.8);
+fill: var(--icon-fill);
 transition: transform 0.1s ease;
 &:hover {
     transform: scale(1.2, 1.2);

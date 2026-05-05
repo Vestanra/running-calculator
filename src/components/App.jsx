@@ -13,7 +13,8 @@ import logo from '../run128.png';
 import {
   Header, InputsWrap, TitleHeader, ButtonWrap, Button,
   Main, ButtonTitle, ButtonNumber, ButtonText, SaveResetWrap,
-  SaveResetBtn, SaveTitle, ImgRun, TextHeader
+  SaveResetBtn, SaveTitle, ImgRun, TextHeader,
+  ToggleWrap, ToggleLabel, ToggleInput, ToggleSlider
 } from "./App.styled";
 
 export const App = () => {
@@ -28,6 +29,7 @@ export const App = () => {
   const [paceForformula, setPaceForformula] = useState(0);
   const [timeForFormula, setTimeForFormula] = useState(0);
   const [lastChanged, setLastChanged] = useState(null);
+  const [isDark, setIsDark] = useState(() => localStorage.getItem('theme') === 'dark');
   const [saveResults, setSaveResults] = useState(() => {
     const results = localStorage.getItem("results");
     if (results !== null) {
@@ -64,6 +66,11 @@ export const App = () => {
   useEffect(() => {
     localStorage.setItem('results', JSON.stringify(saveResults));
   }, [saveResults]);
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  }, [isDark]);
 
   useEffect(() => {
     const body = document.body;
@@ -205,6 +212,12 @@ export const App = () => {
         </TitleHeader>
       </Header>
       <Main>
+        <ToggleWrap>
+          <ToggleLabel>
+            <ToggleInput type="checkbox" checked={isDark} onChange={() => setIsDark(d => !d)} />
+            <ToggleSlider $isDark={isDark} />
+          </ToggleLabel>
+        </ToggleWrap>
         {/* <Expression /> */}
         <Buttons onButtonsClick={onButtonsClick} />
         <InputsWrap>

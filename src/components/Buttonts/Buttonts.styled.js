@@ -31,7 +31,7 @@ justify-content: center;
 align-items: center;
 flex: 1;
 /* width: 60px; */
-background-color: rgba(255, 223, 18, 0.2);
+background-color: var(--btn-preset-bg);
 border: none;
 border-radius: 8px;
 font-weight: 500;
