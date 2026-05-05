@@ -10,7 +10,8 @@ export const ReactModalStyled = styled(ReactModal)`
   width: 300px;
   height: 240px;
   padding: 16px;
-  background-color: rgb(246, 247, 248);
+  background-color: var(--bg);
+  border: var(--modal-border);
   line-height: 1.1;
   overflow-y: auto;
   border-radius: 16px;
@@ -46,7 +47,7 @@ display: block;
 margin-left: auto;
 width: 24px;
 height: 20px;
-fill: rgba(35, 31, 32);
+fill: var(--text);
 transition: transform 0.3s ease;
 @media (min-width: 768px){
     width: 24px;
@@ -72,6 +73,8 @@ height: 40px;
 border: 1px solid #ffe855;
 border-radius: 8px;
 text-align: center;
+background-color: var(--input-bg);
+color: var(--text);
 @media (min-width: 768px){
     width: 80px;
     height: 48px;

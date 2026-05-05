@@ -43,6 +43,7 @@ gap: 16px;
 export const TextHeader = styled.h1`
  font-style: italic;
  font-size: 24px;
+ color: #231f20;
 `;
 
 
@@ -129,4 +130,46 @@ export const SaveTitle = styled.p`
 text-align: center;
 font-size: 18px;
 font-weight: 500;
+`;
+
+export const ToggleWrap = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 12px;
+`;
+
+export const ToggleLabel = styled.label`
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+  cursor: pointer;
+`;
+
+export const ToggleInput = styled.input`
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+`;
+
+export const ToggleSlider = styled.span`
+  position: absolute;
+  inset: 0;
+  background-color: ${({ $isDark }) => $isDark ? '#ffe855' : '#ccc'};
+  border-radius: 24px;
+  transition: background-color 0.2s ease;
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background-color: white;
+    left: 3px;
+    top: 3px;
+    transition: transform 0.2s ease;
+    transform: ${({ $isDark }) => $isDark ? 'translateX(20px)' : 'translateX(0)'};
+  }
 `;
