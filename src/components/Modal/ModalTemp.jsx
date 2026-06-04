@@ -1,44 +1,50 @@
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Btn, BtnWrap, CloseIcon, Input, ReactModalStyled, Title, UnderInput, Wrap, WrapInput } from "./Modal.styled";
 
-export const ModalTemp = ({ modalIsOpen, closeModal, pace, onChangePace }) => {
-    const [min, setMin] = useState(pace.split(':')[0]);
-    const [sec, setSec] = useState(pace.split(':')[1]);
-    const [isMinFocused, setIsMinFocused] = useState(false);
-    const [isSecFocused, setIsSecFocused] = useState(false);
-;
-    useEffect(() => {
-        setMin(pace.split(':')[0] || '0')
-        setSec(pace.split(':')[1] || '00')
-    }, [pace])
+const MAX_DIGITS = 4; // MMSS
 
-    const onChangeMin = (evt) => {
-        if (+evt.target.value < 0 || +evt.target.value > 30) {
-            return
-        }
-        if (evt.target.value === "") {
-            setMin("");
-        } else {
-            setMin(evt.target.value)
-        }        
+// digits "4" -> "0:04", "430" -> "4:30", "1230" -> "12:30"
+const formatPace = (digits) => {
+    const padded = digits.padStart(3, '0');
+    const sec = padded.slice(-2);
+    const min = String(parseInt(padded.slice(0, -2), 10));
+    return `${min}:${sec}`;
+};
+
+export const ModalTemp = ({ modalIsOpen, closeModal, pace, onChangePace }) => {
+    // typed digits, filled right-to-left like a phone timer; empty = nothing typed yet
+    const [digits, setDigits] = useState('');
+
+    // reset the buffer on open / when an external pace arrives, so the field
+    // starts blank and shows the current value only as a faint placeholder
+    useEffect(() => {
+        setDigits('');
+    }, [pace, modalIsOpen]);
+
+    const onChange = (evt) => {
+        setDigits(evt.target.value.replace(/\D/g, '').slice(-MAX_DIGITS));
     };
 
-    const onChangeSec = (evt) => {
-        if (evt.target.value === "") {
-            setSec("0");
-        } else if (+evt.target.value < 0 || +evt.target.value > 60) {
-            return
-        }
-        setSec(evt.target.value)
-    }
-
     const onClose = () => {
-        setMin(pace.split(':')[0])
-        setSec(pace.split(':')[1])
-        closeModal()
-    }
- 
+        setDigits('');
+        closeModal();
+    };
+
+    const onOk = () => {
+        if (digits === '') {
+            // nothing typed -> keep the current value untouched
+            onClose();
+            return;
+        }
+        const padded = digits.padStart(3, '0');
+        const rawMin = parseInt(padded.slice(0, -2), 10);
+        const rawSec = parseInt(padded.slice(-2), 10);
+        const total = rawMin * 60 + rawSec; // carry seconds > 59 into minutes
+        const min = Math.floor(total / 60);
+        const sec = total % 60;
+        onChangePace(String(min), String(sec).padStart(2, '0'));
+    };
+
     return (
         <ReactModalStyled
             contentLabel="Modal"
@@ -46,37 +52,30 @@ export const ModalTemp = ({ modalIsOpen, closeModal, pace, onChangePace }) => {
             onRequestClose={onClose}
             style={{
                 overlay: {
-                    backgroundColor: 'rgba(35, 31, 32, 0.5)',
+                    backgroundColor: 'rgba(20, 18, 16, 0.45)',
+                    backdropFilter: 'blur(6px)',
+                    zIndex: 100,
                 },
             }}
         >
-                
             <CloseIcon onClick={onClose} />
             <Wrap>
-                <Title>Вкажіть темп</Title>
+                <Title>Темп</Title>
                 <WrapInput>
-                    <div>
-                        <Input
-                            type="number"
-                            name="min"
-                            onChange={onChangeMin}
-                            onFocus={() => setIsMinFocused(true)}
-                            onBlurCapture={() => setIsMinFocused(false)}                            
-                            placeholder={isMinFocused ? '' : (min.length === 0 ? '0' : min)}                            
-                        />:
-                        <Input
-                            type="number"
-                            name="sec"
-                            onChange={onChangeSec}
-                            onFocus={() => setIsSecFocused(true)}
-                            onBlurCapture={() => setIsSecFocused(false)}   
-                            placeholder={isSecFocused ? '' : (sec.length === 0 ? '00' : sec)}
-                        />
-                    </div>
+                    <Input
+                        type="text"
+                        inputMode="numeric"
+                        name="pace"
+                        value={digits === '' ? '' : formatPace(digits)}
+                        onChange={onChange}
+                        placeholder={pace}
+                        $width="120px"
+                        $widthLg="140px"
+                    />
                     <UnderInput>хв : сек</UnderInput>
                 </WrapInput>
                 <BtnWrap>
-                    <Btn type="button" onClick={() => onChangePace(min, sec)}>ок</Btn>
+                    <Btn type="button" onClick={onOk}>ок</Btn>
                 </BtnWrap>
             </Wrap>
         </ReactModalStyled>
