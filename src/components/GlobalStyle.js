@@ -3,8 +3,8 @@ import 'modern-normalize';
 
 export const GlobalStyle = createGlobalStyle`
 :root {
-  --accent: #ffcf33;
-  --accent-strong: #ffb800;
+  --accent: #ffe14d;
+  --accent-strong: #f2cf2e;
   --on-accent: #231f20;
 
   --bg: #f6f4ee;
@@ -12,7 +12,7 @@ export const GlobalStyle = createGlobalStyle`
   --input-bg: #ffffff;
   --border: rgba(33, 31, 28, 0.14);
   --icon-fill: rgba(33, 31, 28, 0.80);
-  --btn-preset-bg: rgba(255, 223, 18, 0.20);
+  --btn-preset-bg: rgba(255, 230, 102, 0.20);
   --modal-border: 1px solid rgba(33, 31, 28, 0.15);
 
   --shadow-sm: 0 1px 2px rgba(20, 20, 25, .06), 0 1px 3px rgba(20, 20, 25, .05);

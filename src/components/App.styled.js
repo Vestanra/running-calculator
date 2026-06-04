@@ -92,11 +92,11 @@ export const TitleHeader = styled.div`
 
 export const TextHeader = styled.h1`
   font-family: var(--font-display);
-  font-size: 23px;
-  font-weight: 600;
+  font-size: 18px;
+  font-weight: 500;
   color: #231f20;
   text-transform: uppercase;
-  letter-spacing: 0.07em;
+  letter-spacing: 0.14em;
   white-space: nowrap;
 `;
 
@@ -202,12 +202,12 @@ export const SaveResetBtn = styled.button`
           background: var(--accent);
           color: var(--on-accent);
           border: 1px solid transparent;
-          box-shadow: 0 4px 14px rgba(255, 214, 10, 0.35);
+          box-shadow: 0 4px 14px rgba(255, 225, 77, 0.35);
 
           &:hover:not(:disabled) {
             background: var(--accent-strong);
             transform: translateY(-1px);
-            box-shadow: 0 6px 18px rgba(255, 214, 10, 0.4);
+            box-shadow: 0 6px 18px rgba(255, 225, 77, 0.4);
           }
           html[data-theme='dark'] & {
             box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
