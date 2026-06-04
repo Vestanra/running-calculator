@@ -5,6 +5,10 @@ and the third is computed automatically.
 
 🔗 **Live:** https://vestanra.github.io/running-calculator/
 
+<p align="center">
+  <img src="./assets/mobile.png" alt="Running Calculator on mobile" width="320" />
+</p>
+
 ## Features
 
 - **Three-way calculation** — set any two of distance / pace / time and the
