@@ -1,118 +1,135 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import ReactModal from 'react-modal';
 import { MdClose } from "react-icons/md";
 
+const modalPop = keyframes`
+  from { opacity: 0; transform: translate(-50%, -50%) scale(0.94); }
+  to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+`;
+
 export const ReactModalStyled = styled(ReactModal)`
-  position: absolute;
-  top: 30%;
+  position: fixed;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 300px;
-  height: 240px;
-  padding: 16px;
-  background-color: var(--bg);
+  width: 320px;
+  padding: 20px;
+  background-color: var(--input-bg);
   border: var(--modal-border);
-  line-height: 1.1;
-  overflow-y: auto;
-  border-radius: 16px;
-  @media (min-width: 768px){
+  border-radius: 20px;
+  box-shadow: var(--shadow-lg);
+  outline: none;
+  animation: ${modalPop} 0.22s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+  @media (min-width: 768px) {
     width: 360px;
-    height: 300px;
-    padding: 18px;
+    padding: 24px;
   }
 `;
 
 export const Wrap = styled.div`
-display: flex;
-flex-direction: column;
-justify-content: center;
-gap: 24px;
-height: 80%;
-@media (min-width: 768px){
-    gap: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  @media (min-width: 768px) {
+    gap: 28px;
   }
 `;
 
 export const Title = styled.p`
-text-align: center;
-font-weight: 500;
-font-size: 18px;
-@media (min-width: 768px){
-    font-size: 20px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  @media (min-width: 768px) {
+    font-size: 16px;
   }
 `;
 
 export const CloseIcon = styled(MdClose)`
-display: block;
-margin-left: auto;
-width: 24px;
-height: 20px;
-fill: var(--text);
-transition: transform 0.3s ease;
-@media (min-width: 768px){
-    width: 24px;
-    height: 24px;
-  }
-  &:hover {    
-    transform: rotate(-90deg) scale(1.1);
+  display: block;
+  margin-left: auto;
+  width: 24px;
+  height: 24px;
+  fill: var(--text);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  &:hover {
+    transform: scale(1.18);
   }
 `;
 
 export const WrapInput = styled.div`
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-gap: 8px;
-font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 `;
 
 export const Input = styled.input`
-width: 60px;
-height: 40px;
-border: 1px solid #ffe855;
-border-radius: 8px;
-text-align: center;
-background-color: var(--input-bg);
-color: var(--text);
-@media (min-width: 768px){
-    width: 80px;
-    height: 48px;
-  }
-&:focus {
-    outline: none;
-  }
-`
-export const UnderInput = styled.span`
-text-align: center;
-font-weight: 400;
-`
+  width: ${({ $width }) => $width || '64px'};
+  height: 46px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  text-align: center;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-num);
+  font-size: 18px;
+  font-variant-numeric: tabular-nums;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 
-export const BtnWrap = styled.div`
-display: flex;
-justify-content: center;
-@media (min-width: 768px){
-    justify-content: space-around;
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  &[type='number'] {
+    -moz-appearance: textfield;
+  }
+
+  @media (min-width: 768px) {
+    width: ${({ $widthLg }) => $widthLg || '74px'};
+    height: 52px;
+    font-size: 20px;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent);
   }
 `;
 
-export const Btn = styled.button`
-width: 90px;
-height: 32px;
-background-color: rgba(35, 31, 32, 0.4);
-border: 1px solid #ffe855;
-font-weight: 500;
-color: white;
-border-radius: 8px;
-font-size: 14px;
-box-shadow: 0 2px 4px rgba(35, 31, 32, 0.5);
-transition: transform 0.1s ease;
-@media (min-width: 768px){
-    width: 100px;
-    height: 38px;
-  }
+export const UnderInput = styled.span`
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  opacity: 0.55;
+`;
 
-&:hover {
-    transform: scale(1.05, 1.05);
+export const BtnWrap = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+export const Btn = styled.button`
+  min-width: 110px;
+  height: 44px;
+  background-color: var(--accent);
+  color: var(--on-accent);
+  border: 1px solid transparent;
+  font-weight: 600;
+  border-radius: 12px;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+
+  &:hover {
+    background-color: var(--accent-strong);
+    transform: translateY(-1px);
   }
 `;

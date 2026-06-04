@@ -46,13 +46,15 @@ export const ModalDistance = ({ modalIsOpen, closeModal, distance, onChangeDista
             onRequestClose={onClose}
             style={{
                 overlay: {
-                    backgroundColor: 'rgba(35, 31, 32, 0.5)',
+                    backgroundColor: 'rgba(20, 18, 16, 0.45)',
+                    backdropFilter: 'blur(6px)',
+                    zIndex: 100,
                 },
             }}
         >
             <CloseIcon onClick={onClose} />
             <Wrap>
-                <Title>Вкажіть дистанцію</Title>
+                <Title>Дистанція</Title>
                 <WrapInput>
                     <div>
                         <Input
@@ -69,7 +71,7 @@ export const ModalDistance = ({ modalIsOpen, closeModal, distance, onChangeDista
                             onChange={onChangeM}
                             onFocus={() => setIsMFocused(true)}
                             onBlur={() => setIsMFocused(false)}
-                            placeholder={isMFocused ? '' : (m.length === 0 ? '00' : m.padStart(2, '0'))}
+                            placeholder={isMFocused ? '' : (m.length === 0 ? '00' : m.padEnd(2, '0'))}
                         />
                     </div>
                     <UnderInput>км , м</UnderInput>

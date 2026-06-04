@@ -1,48 +1,52 @@
 import styled from "styled-components";
 
 export const ButtonsContainer = styled.div`
-max-width: 560px;
-margin-left: auto;
-margin-right: auto;
-margin-bottom: 32px;
-`
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 28px;
+`;
 
 export const ButtonsWrap = styled.div`
-display: flex;
-justify-content: space-between;
-margin-top: 16px;
-font-size: 14px;
-padding: 0 8px;
-gap: 16px;
-@media (min-width: 768px){
-    margin-top: 32px;
-    gap: 16px;
-    justify-content: center;
-    padding: 0 32px;
-    font-size: 16px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+
+  & + & {
+    margin-top: 10px;
   }
-`
+`;
 
 export const Button = styled.button`
-padding: 8px;
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-flex: 1;
-/* width: 60px; */
-background-color: var(--btn-preset-bg);
-border: none;
-border-radius: 8px;
-font-weight: 500;
-box-shadow: 0 2px 4px rgba(35, 31, 32, 0.2);
-transition: box-shadow 0.1s ease;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3px;
+  padding: 10px 6px;
+  background-color: var(--btn-preset-bg);
+  border: 1px solid transparent;
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  font-size: 12.5px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
 
-@media (min-width: 768px){
-    width: 80px;
+  span {
+    font-family: var(--font-num);
+    font-size: 16px;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
   }
 
-&:hover {
-    box-shadow: 0px 4px 8px 0px rgba(35, 31, 32, 0.2);
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--accent);
   }
-`
+  &:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-sm);
+  }
+`;

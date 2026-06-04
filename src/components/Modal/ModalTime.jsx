@@ -1,49 +1,53 @@
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Btn, BtnWrap, CloseIcon, Input, ReactModalStyled, Title, UnderInput, Wrap, WrapInput } from "./Modal.styled";
 
+const MAX_DIGITS = 6; // HHMMSS
+
+// digits "4" -> "0:00:04", "130" -> "0:01:30", "13045" -> "1:30:45"
+const formatTime = (digits) => {
+    const padded = digits.padStart(5, '0');
+    const sec = padded.slice(-2);
+    const min = padded.slice(-4, -2);
+    const h = String(parseInt(padded.slice(0, -4), 10));
+    return `${h}:${min}:${sec}`;
+};
+
 export const ModalTime = ({ modalIsOpen, closeModal, time, onChangeTime }) => {
-    const [hT, setHT] = useState(time.split(':')[0]);
-    const [minT, setMinT] = useState(time.split(':')[1]);
-    const [secT, setSecT] = useState(time.split(':')[2]);
-    const [isHTFocused, setIsHTFocused] = useState(false);
-    const [isMinTFocused, setIsMinTFocused] = useState(false);
-    const [isSecTFocused, setIsSecTFocused] = useState(false);
+    // typed digits, filled right-to-left like a phone timer; empty = nothing typed yet
+    const [digits, setDigits] = useState('');
 
+    // reset the buffer on open / when an external time arrives, so the field
+    // starts blank and shows the current value only as a faint placeholder
     useEffect(() => {
-        setHT(time.split(':')[0] || '0')
-        setMinT(time.split(':')[1])
-        setSecT(time.split(':')[2])
-    }, [time])
+        setDigits('');
+    }, [time, modalIsOpen]);
 
-    const onChangeH = (evt) => {
-        if (+evt.target.value < 0 || +evt.target.value > 23) {
-            return
-        }
-        setHT(evt.target.value)
-    };
-
-    const onChangeMin = (evt) => {
-        if (+evt.target.value < 0 || +evt.target.value > 60) {
-            return
-        }
-        setMinT(evt.target.value)
-    };
-
-    const onChangeSec = (evt) => {
-        if (+evt.target.value < 0 || +evt.target.value > 60) {
-            return
-        }
-        setSecT(evt.target.value)
+    const onChange = (evt) => {
+        setDigits(evt.target.value.replace(/\D/g, '').slice(-MAX_DIGITS));
     };
 
     const onClose = () => {
-        setHT(time.split(':')[0])
-        setMinT(time.split(':')[1])
-        setSecT(time.split(':')[2])
-        closeModal()
-    }
- 
+        setDigits('');
+        closeModal();
+    };
+
+    const onOk = () => {
+        if (digits === '') {
+            // nothing typed -> keep the current value untouched
+            onClose();
+            return;
+        }
+        const padded = digits.padStart(5, '0');
+        const rawH = parseInt(padded.slice(0, -4), 10);
+        const rawMin = parseInt(padded.slice(-4, -2), 10);
+        const rawSec = parseInt(padded.slice(-2), 10);
+        const total = rawH * 3600 + rawMin * 60 + rawSec; // carry overflow upward
+        const h = Math.floor(total / 3600);
+        const min = Math.floor((total % 3600) / 60);
+        const sec = total % 60;
+        onChangeTime(String(h), String(min).padStart(2, '0'), String(sec).padStart(2, '0'));
+    };
+
     return (
         <ReactModalStyled
             contentLabel="Modal"
@@ -51,44 +55,30 @@ export const ModalTime = ({ modalIsOpen, closeModal, time, onChangeTime }) => {
             onRequestClose={onClose}
             style={{
                 overlay: {
-                    backgroundColor: 'rgba(35, 31, 32, 0.5)',
+                    backgroundColor: 'rgba(20, 18, 16, 0.45)',
+                    backdropFilter: 'blur(6px)',
+                    zIndex: 100,
                 },
             }}
         >
             <CloseIcon onClick={onClose} />
             <Wrap>
-                <Title>Вкажіть час</Title>
+                <Title>Час</Title>
                 <WrapInput>
-                    <div>
-                        <Input
-                            type="number"
-                            name="h"
-                            onChange={onChangeH}
-                            onFocus={() => setIsHTFocused(true)}
-                            onBlur={() => setIsHTFocused(false)}
-                            placeholder={isHTFocused ? '' : (hT.length === 0 ? '00' : hT)}
-                        />:
-                        <Input
-                            type="number"
-                            name="min"
-                            onChange={onChangeMin}
-                            onFocus={() => setIsMinTFocused(true)}
-                            onBlur={() => setIsMinTFocused(false)}
-                            placeholder={isMinTFocused ? '' : (minT.length === 0 ? '00' : minT)}
-                        />:
-                        <Input
-                            type="number"
-                            name="sec"
-                            onChange={onChangeSec}
-                            onFocus={() => setIsSecTFocused(true)}
-                            onBlur={() => setIsSecTFocused(false)}
-                            placeholder={isSecTFocused ? '' : (secT.length === 0 ? '00' : secT)}
-                        />
-                    </div>
+                    <Input
+                        type="text"
+                        inputMode="numeric"
+                        name="time"
+                        value={digits === '' ? '' : formatTime(digits)}
+                        onChange={onChange}
+                        placeholder={time}
+                        $width="150px"
+                        $widthLg="175px"
+                    />
                     <UnderInput>год : хв : сек</UnderInput>
                 </WrapInput>
                 <BtnWrap>
-                    <Btn type="button" onClick={() => onChangeTime(hT, minT, secT)}>ок</Btn>
+                    <Btn type="button" onClick={onOk}>ок</Btn>
                 </BtnWrap>
             </Wrap>
         </ReactModalStyled>

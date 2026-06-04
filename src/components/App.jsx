@@ -4,7 +4,7 @@ import { ModalDistance } from "./Modal/ModalDistance";
 import { ModalTime } from "./Modal/ModalTime";
 import { ModalTemp } from "./Modal/ModalTemp";
 import { Buttons } from "./Buttonts/Buttonts";
-import { convertToHMS, convertToMS } from "../helpers/index.js";
+import { convertToHMS, convertToMS, formatDistance } from "../helpers/index.js";
 import { useEffect } from "react";
 import { useCallback } from "react";
 import { nanoid } from "nanoid";
@@ -17,8 +17,11 @@ import {
   ToggleWrap, ToggleLabel, ToggleInput, ToggleSlider
 } from "./App.styled";
 
+const LOGO_ANIMS = ['run', 'hop', 'flip', 'spin', 'zoomies', 'wiggle'];
+
 export const App = () => {
-  const [run, setRun] = useState(false);
+  const [logoAnim, setLogoAnim] = useState(null);
+  const [logoAnimKey, setLogoAnimKey] = useState(0);
   const [modalOpenDis, setModalOpenDis] = useState(false);
   const [modalOpenTime, setModalOpenTime] = useState(false);
   const [modalOpenRace, setModalOpenRace] = useState(false);
@@ -47,8 +50,14 @@ export const App = () => {
   const closeModalRace = () => setModalOpenRace(false);
 
   const handleClick = () => {
-    setRun(true);
-    setTimeout(() => setRun(false), 2000);
+    setLogoAnim(prev => {
+      let next = prev;
+      while (next === prev) {
+        next = LOGO_ANIMS[Math.floor(Math.random() * LOGO_ANIMS.length)];
+      }
+      return next;
+    });
+    setLogoAnimKey(k => k + 1);
   };
 
   useEffect(() => {
@@ -94,7 +103,7 @@ export const App = () => {
     if (+m === 0) {
       dis = `${km || '0'}`;
     } else {
-      dis = `${km || "0"},${m.padStart(2, '0')}`;
+      dis = `${km || "0"},${m.padEnd(2, '0')}`;
     }
     setDistance(dis);
     setLastChanged("distance");
@@ -195,12 +204,11 @@ export const App = () => {
   const onDeleteResult = (id) =>
     setSaveResults(prvSt => prvSt.filter(el => el.id !== id));
 
-  const formatDistance = (distance) => {
-    const value = Number(distance.replace(',', '.'));
-    if (Number.isNaN(value)) return distance;
-    const rounded = Math.round(value * 100) / 100;
-    if (rounded % 1 === 0) return String(rounded);
-    return rounded.toFixed(2).replace('.', ',');
+  const onSelectResult = ({ distance, pace, time }) => {
+    setDistance(distance);
+    setPace(pace);
+    setTime(time);
+    setLastChanged(null);
   };
 
   return (
@@ -208,7 +216,7 @@ export const App = () => {
       <Header>
         <TitleHeader>
           <TextHeader>Running calculator</TextHeader>
-          <ImgRun src={logo} $run={run} onClick={handleClick} alt="Логотип" />
+          <ImgRun key={logoAnimKey} src={logo} $anim={logoAnim} onClick={handleClick} alt="Логотип" />
         </TitleHeader>
       </Header>
       <Main>
@@ -222,7 +230,7 @@ export const App = () => {
         <Buttons onButtonsClick={onButtonsClick} />
         <InputsWrap>
           <ButtonWrap>
-            <Button onClick={openModalDis}>
+            <Button onClick={openModalDis} $active={modalOpenDis}>
               <ButtonTitle>Дистанція</ButtonTitle>
               <ButtonNumber>
                 {formatDistance(distance)}
@@ -237,7 +245,7 @@ export const App = () => {
             />
           </ButtonWrap>
           <ButtonWrap>
-            <Button onClick={openModalRace}>
+            <Button onClick={openModalRace} $active={modalOpenRace}>
               <ButtonTitle>Темп</ButtonTitle>
               <ButtonNumber>{pace}</ButtonNumber>
               <ButtonText>хв/км</ButtonText>
@@ -250,7 +258,7 @@ export const App = () => {
             />
           </ButtonWrap>
           <ButtonWrap>
-            <Button onClick={openModalTime}>
+            <Button onClick={openModalTime} $active={modalOpenTime}>
               <ButtonTitle>Час</ButtonTitle>
               <ButtonNumber>{time}</ButtonNumber>
               <ButtonText>год:хв:сек</ButtonText>
@@ -268,6 +276,7 @@ export const App = () => {
             Скинути
           </SaveResetBtn>
           <SaveResetBtn
+            $primary
             onClick={onSave}
             disabled={
               paceForformula > 0 && timeForFormula > 0 && distanceForFormala > 0
@@ -281,7 +290,11 @@ export const App = () => {
         {saveResults.length > 0 && (
           <SaveTitle>Збережені результати</SaveTitle>
         )}
-        <SavedResults list={saveResults} onDelete={onDeleteResult} />
+        <SavedResults
+          list={saveResults}
+          onDelete={onDeleteResult}
+          onSelect={onSelectResult}
+        />
       </Main>
       <GlobalStyle />
     </div>

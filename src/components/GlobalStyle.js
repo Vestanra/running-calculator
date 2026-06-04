@@ -3,30 +3,44 @@ import 'modern-normalize';
 
 export const GlobalStyle = createGlobalStyle`
 :root {
-  --bg: rgb(246, 247, 248);
-  --text: black;
-  --input-bg: white;
-  --border: rgba(35, 31, 32, 0.2);
-  --icon-fill: rgba(35, 31, 32, 0.8);
-  --btn-preset-bg: rgba(255, 223, 18, 0.2);
-  --modal-border: 1px solid rgba(35, 31, 32, 0.15);
+  --accent: #ffe14d;
+  --accent-strong: #f2cf2e;
+  --on-accent: #231f20;
+
+  --bg: #f6f4ee;
+  --text: #211f1c;
+  --input-bg: #ffffff;
+  --border: rgba(33, 31, 28, 0.14);
+  --icon-fill: rgba(33, 31, 28, 0.80);
+  --btn-preset-bg: rgba(255, 230, 102, 0.20);
+  --modal-border: 1px solid rgba(33, 31, 28, 0.15);
+
+  --shadow-sm: 0 1px 2px rgba(20, 20, 25, .06), 0 1px 3px rgba(20, 20, 25, .05);
+  --shadow-md: 0 4px 14px rgba(20, 20, 25, .08), 0 2px 6px rgba(20, 20, 25, .05);
+  --shadow-lg: 0 18px 50px rgba(20, 20, 25, .18);
+
+  --font-ui: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-display: 'Archivo', 'Space Grotesk', sans-serif;
+  --font-num: 'Outfit', 'Space Grotesk', sans-serif;
 }
 
 [data-theme="dark"] {
-  --bg: #1c1c1e;
-  --text: #f0f0f0;
-  --input-bg: #3a3a3c;
-  --border: rgba(255, 255, 255, 0.15);
-  --icon-fill: rgba(240, 240, 240, 0.75);
+  --bg: #2b2824;
+  --text: #efe9df;
+  --input-bg: #363230;
+  --border: rgba(255, 255, 255, 0.12);
+  --icon-fill: rgba(239, 233, 223, 0.75);
   --btn-preset-bg: rgba(170, 165, 120, 0.38);
-  --modal-border: 1px solid rgba(255, 232, 85, 0.5);
+  --modal-border: 1px solid rgba(255, 232, 85, 0.50);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, .4);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, .45);
+  --shadow-lg: 0 18px 50px rgba(0, 0, 0, .6);
 }
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: var(--font-ui);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--bg);
@@ -47,6 +61,7 @@ ul {
 button {
     cursor: pointer;
     color: var(--text);
+    font-family: var(--font-ui);
 }
 
 p {
