@@ -5,15 +5,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```bash
-npm start        # dev server at localhost:3000
+npm run dev      # Vite dev server at localhost:3000 (npm start is an alias)
 npm run build    # production build → /build
-npm test         # run tests in watch mode
-npm run lint:js  # ESLint for src/**/*.{js,jsx}
+npm run preview  # serve the production build locally
+npm run lint:js  # ESLint (flat config) over src/
 ```
 
 ## Architecture
 
-React SPA (Create React App) — a running calculator that computes any one of three values (distance, pace, time) from the other two.
+React SPA built with **Vite** — a running calculator that computes any one of three values (distance, pace, time) from the other two. The entry point is `src/index.jsx`, loaded by the root `index.html`.
 
 **Core logic lives entirely in `App.jsx`:**
 - Three display values: `distance` (string, comma-separated km/m with 2 decimal places e.g. `"21,10"`, `"10,56"`), `pace` (`"M:SS"`), `time` (`"H:MM:SS"`)
@@ -35,7 +35,9 @@ React SPA (Create React App) — a running calculator that computes any one of t
 
 **Quick-select buttons** (`Buttons` component) set preset race distances: 100m, 200m, 400m, 800m, 5km, 10km, 21.1km, 42.2km. Distance strings use 2-digit decimal format (e.g. `"0,10"`, `"21,10"`).
 
-**Module resolution:** `jsconfig.json` sets `baseUrl: "src"`, so imports like `import { App } from 'components/App'` resolve from `src/`.
+**Build & deploy:** Vite config in `vite.config.js` sets `base: '/running-calculator/'` (GitHub Pages project path) and `build.outDir: 'build'`. CI (`.github/workflows/deploy.yml`) runs `npm ci → lint → build` on push to `main` and publishes `build/` to the `gh-pages` branch. PWA manifest and icons live in `public/` and are copied as-is.
+
+**Module resolution:** imports within `src/` are relative. `jsconfig.json` still sets `baseUrl: "src"` for editor IntelliSense, but Vite resolves via relative paths (no bundler alias configured).
 
 ## Formatting
 
