@@ -4,7 +4,12 @@ import { ModalDistance } from "./Modal/ModalDistance";
 import { ModalTime } from "./Modal/ModalTime";
 import { ModalTemp } from "./Modal/ModalTemp";
 import { Buttons } from "./Buttonts/Buttonts";
-import { convertToHMS, convertToMS, formatDistance } from "../helpers/index.js";
+import {
+  convertToHMS,
+  convertToMS,
+  formatDistance,
+  getCalculation,
+} from "../helpers/index.js";
 import { useEffect } from "react";
 import { useCallback } from "react";
 import { nanoid } from "nanoid";
@@ -160,24 +165,16 @@ export const App = () => {
 
 
   useEffect(() => {
-      if (lastChanged === "distance" && distanceForFormala > 0 && timeForFormula > 0 && paceForformula === 0) {
-        calculatePace();
-      } 
-      if (lastChanged === "distance" && distanceForFormala > 0 && timeForFormula > 0 && paceForformula > 0) {
-        calculateTime();
-      } 
-      if (lastChanged === "pace" && distanceForFormala > 0 && paceForformula > 0) {
-        calculateTime();
-      }
-      if (lastChanged === "pace" && distanceForFormala === 0 && paceForformula > 0 && timeForFormula > 0) {
-        calculateDistance();
-      }
-      if (lastChanged === "time" && distanceForFormala > 0 && timeForFormula > 0) {
-        calculatePace();
-      }
-      if (lastChanged === "time" && distanceForFormala === 0 && timeForFormula > 0 && paceForformula > 0) {
-        calculateDistance();
-      }
+    const calculation = getCalculation({
+      lastChanged,
+      distance: distanceForFormala,
+      pace: paceForformula,
+      time: timeForFormula,
+    });
+
+    if (calculation === 'time') calculateTime();
+    if (calculation === 'pace') calculatePace();
+    if (calculation === 'distance') calculateDistance();
   }, [
     distanceForFormala,
     paceForformula,
